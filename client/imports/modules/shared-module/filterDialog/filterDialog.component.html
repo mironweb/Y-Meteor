@@ -1,0 +1,7 @@
+<mat-form-field>
+  <mat-select placeholder="Select Table" name="food" (ngModelChange)="onChange($event)">
+    <mat-option *ngFor="let select of selections" [value]="select.value">
+      {{select.label}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

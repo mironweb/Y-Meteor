@@ -1,0 +1,92 @@
+<mat-card>
+    <div class="product-info" *ngIf="product?._id">
+        <h1>{{product.name}}</h1>
+        <span>{{product.qtyShipped || 0}} of {{product.qtyOrdered || 0}} shipped</span>
+    </div>
+    <form name="shippingForm" [formGroup]="shippingForm" novalidate>
+        <div class="selectorForm">
+            <mat-form-field class="full-width">
+                <input matInput formControlName="palletNumber" placeholder="Pallet Number" required>
+                <mat-error *ngIf="shippingForm.controls['palletNumber'].errors?.required">
+                    Pallet Number is required
+                </mat-error>
+                <mat-error *ngIf="shippingForm.controls['palletNumber'].errors?.min">
+                    Pallet Number must be greater than 0
+                </mat-error>
+                <mat-error *ngIf="shippingForm.controls['palletNumber'].errors?.pattern">
+                    Pallet Number must be an integer
+                </mat-error>
+                <button class="counter increment"
+                    mat-icon-button matSuffix
+                    aria-label="Increment"
+                    (click)="increment('palletNumber')">
+                    +
+                </button>
+                <button class="counter decrement"
+                    mat-icon-button matSuffix
+                    aria-label="Decrement"
+                    (click)="decrement('palletNumber')">
+                    -
+                </button>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput formControlName="boxNumber" placeholder="Box Number" required>
+                <mat-error *ngIf="shippingForm.controls['boxNumber'].errors?.required">
+                    Box Number is required
+                </mat-error>
+                <mat-error *ngIf="shippingForm.controls['boxNumber'].errors?.min">
+                    Box Number must be greater than 0
+                </mat-error>
+                <mat-error *ngIf="shippingForm.controls['boxNumber'].errors?.pattern">
+                    Box Number must be an integer
+                </mat-error>
+                <button class="counter increment"
+                    mat-icon-button matSuffix
+                    aria-label="Increment"
+                    (click)="increment('boxNumber')">
+                    +
+                </button>
+                <button class="counter decrement"
+                    mat-icon-button matSuffix
+                    aria-label="Decrement"
+                    (click)="decrement('boxNumber')">
+                    -
+                </button>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput formControlName="binNumber" placeholder="Bin Number" required>
+                <mat-error *ngIf="shippingForm.controls['binNumber'].errors?.required">
+                    Bin Number is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput formControlName="qtyToShip" placeholder="Qty to Ship" required>
+                <mat-error *ngIf="shippingForm.controls['qtyToShip'].errors?.required">
+                    Qty to Ship is required
+                </mat-error>
+                <mat-error *ngIf="shippingForm.controls['qtyToShip'].errors?.min">
+                    Qty to Ship must be greater than 0
+                </mat-error>
+                <mat-error *ngIf="shippingForm.controls['qtyToShip'].errors?.pattern">
+                    Qty to Ship must be an integer
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <br>
+        <button
+            [disabled]="!shippingForm.valid"
+            mat-raised-button color="primary"
+            type="button"
+            (click)="addProductToShipment()">
+            Add to Shipment
+        </button>
+        <button
+            mat-raised-button color="warn"
+            type="button"
+            (click)="cancelProductToShipment()">
+            Cancel
+        </button>
+    </form>
+</mat-card>
+
+<simple-notifications [options]="options"></simple-notifications>

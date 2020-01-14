@@ -1,0 +1,15 @@
+<mat-card>
+  <div [hidden]='view !== "dashboard"'>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+      <executive-budgetReport #budgetCard fxFlex="100" [(data)]="data" (lookupView)='lookupView($event)'></executive-budgetReport>
+    </div>
+    <br>
+  </div>
+
+  <div [hidden]='view === "dashboard"'>
+    <button mat-icon-button style='float: right;' (click)="clearUrlParams()">
+      <mat-icon class="md-24">close</mat-icon>
+    </button>
+    <executive-lookup [(data)]="lookupData" (lookupDataChange)='lookupDataChange($event)'></executive-lookup>
+  </div>
+</mat-card>

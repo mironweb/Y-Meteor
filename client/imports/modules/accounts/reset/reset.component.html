@@ -1,0 +1,40 @@
+<div id="reset">
+  <h1>Reset your password!</h1>
+
+  <form [formGroup]="resetForm" (ngSubmit)="reset()">
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        placeholder="Password"
+        required
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="confirmPassword"
+        type="password"
+        placeholder="Confirm Password"
+        required
+      >
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      aria-label="Reset"
+      [disabled]="isLoading"
+    >
+      Reset
+      <mat-spinner [diameter]="24" *ngIf="isLoading"></mat-spinner>
+    </button>
+
+    <a mat-button class="login" routerLink="/login">
+      Back to login
+    </a>
+  </form>
+</div>
+<simple-notifications [options]="options"></simple-notifications>

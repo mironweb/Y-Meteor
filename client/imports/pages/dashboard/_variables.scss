@@ -1,0 +1,59 @@
+// COLORS
+
+// main
+$primary: #c25113;
+$secondary: #4671a2;
+
+// Grays/Black/White
+$grey-darker: #363f48;
+$grey-dark: #566b87;
+$grey: #9fadbd;
+$grey-light: #cbd4df;
+$grey-lighter: #e4e8ed;
+$black:#000;
+$white: #f3f3f3;
+
+// extra colors
+$blue: #15477f;
+$green: #0d805d;
+$orange: #c27d13;
+$purple: #15477f;
+$red: #ed6c63;
+$turquoise: #1fc8db;
+$yellow: #fce473;
+
+
+// Typography
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300,700,900);
+$family-sans-serif: "Lato", "Helvetica Neue", "Helvetica", sans-serif;
+$family-monospace: "Source Code Pro", "Monaco", "Inconsolata", monospace;
+
+$size-1: 48px;
+$size-2: 40px;
+$size-3: 28px;
+$size-4: 24px;
+$size-5: 18px;
+$size-6: 14px;
+$size-7: 11px;
+
+$weight-title-normal: 400;
+$weight-title-bold: 700;
+$light: 300;
+$normal: 400;
+$bold: 700;
+$extraBold: 900;
+
+// Breakpoints
+$phone: 600px;
+$tablet: 769px;
+$desktop: 1025px; //modified for Ipad, original 980px
+$widescreen: 1180px;
+
+// Dimensions
+$column-gap: 20px;
+$header-height: 50px;
+
+// Miscellaneous
+$easing: ease-out;
+$radius: 0;
+$speed: 86ms;

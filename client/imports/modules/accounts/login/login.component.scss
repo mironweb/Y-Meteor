@@ -1,0 +1,54 @@
+#login {
+  margin: 0 auto;
+  padding: 24px 16px 16px 16px;
+  max-width: 288px;
+
+  h1 {
+    margin-top: 0;
+    padding-top: 64px;
+    color: #333333;
+    font-size: 24px;
+    font-weight: normal;
+    text-align: center;
+    background-image: url("/img/g_icon.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 64px;
+  }
+
+  form {
+    margin-top: 24px;
+    padding: 0 12px;
+  }
+
+  mat-form-field,
+  .mat-button,
+  .mat-flat-button {
+    width: 100%;
+  }
+  .mat-button,
+  .mat-flat-button {
+    font-weight: normal;
+  }
+
+  .forgot {
+    margin-top: 8px;
+    color: #333333;
+    font-size: 12px;
+  }
+
+  button[type=submit]:disabled {
+    color: #ffffff;
+    // TODO get color from theme
+    background-color: #c25113;
+  }
+
+  mat-spinner {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+  }
+  mat-spinner ::ng-deep circle {
+    stroke: #ffffff;
+  }
+}

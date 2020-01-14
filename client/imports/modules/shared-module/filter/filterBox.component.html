@@ -1,0 +1,107 @@
+<div fxLayout="row wrap">
+  <div fxFlex="200px" *ngIf="savedFilters.length >= 0">
+    <mat-form-field style="width: 100%">
+      <mat-select placeholder="Select filter" [compareWith]="compareObjects" [(value)]="userFilterService.currentFilter"
+                  floatPlaceholder="never" (selectionChange)="onSelectFilter()">
+        <mat-option *ngFor="let filter of savedFilters" [value]="filter">
+          {{ filter.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="isDeveloper">
+    <div fxFlexOffset="30px" fxFlex="none" fxLayoutAlign="start center">
+      <button mat-raised-button (click)="editFilter()">Edit</button>
+    </div>
+    <div fxFlexOffset="30px" fxFlex="none" fxLayoutAlign="start center">
+      <button mat-raised-button (click)="saveFilter()">Save</button>
+    </div>
+    <div fxFlexOffset="30px" fxFlex="none" fxLayoutAlign="start center">
+      <button mat-raised-button (click)="addNewFilter()">Add New Filter</button>
+    </div>
+    <div fxFlexOffset="30px" fxFlex="none" fxLayoutAlign="start center">
+      <button mat-raised-button (click)="reloadFilter()">Reload Filter</button>
+    </div>
+    <div fxFlexOffset="30px" fxFlex="none" fxLayoutAlign="start center">
+      <button mat-raised-button (click)="setDefault()">Set Default</button>
+    </div>
+  </div>
+</div>
+
+<div fxLayout="row">
+  <div *ngIf="userFilterService.currentFilter && userFilterService.currentFilter.conditions.length > 0" fxLayout="row">
+    <div *ngFor="let condition of userFilterService.currentFilter.conditions; let conditionIndex = index"
+         fxLayout="row wrap" class="condition-chip">
+      <div fxFlex class="filter-name cursor-pointer" (click)="loadCondition(conditionIndex)">
+        <div>
+          {{condition.name}} :
+          <span [ngSwitch]="condition.type">
+          <span *ngSwitchCase="'date'">
+            <span [ngSwitch]="condition.method">
+              <span *ngSwitchDefault="">
+                {{condition.value | toDate }}
+              </span>
+              <span *ngSwitchCase="'<>'">
+                <span *ngFor="let d of condition.value; let valueIndex = index; let last = last;">
+                  {{d | date : 'M/d/yy' }}
+                  <span *ngIf="!last">
+                    -
+                  </span>
+                </span>
+              </span>
+              <span *ngSwitchCase="'$or'">
+                <span *ngFor="let d of condition.value; let valueIndex = index; let last = last;">
+                  {{d | date : 'M/d/yy' }}
+                  <span *ngIf="!last">
+                    ,
+                  </span>
+                </span>
+              </span>
+              <span *ngSwitchCase="'thisMonth'">
+                this Month
+              </span>
+              <span *ngSwitchCase="'today'">
+                today
+              </span>
+            </span>
+          </span>
+          <span *ngSwitchDefault>
+            {{condition.value}}
+          </span>
+        </span>
+        </div>
+      </div>
+
+
+      <div class="float-right filter-icon cursor-pointer" fxFlex="" style="position: relative; top: -3px;"
+           (click)="removeCondition(conditionIndex)">
+        <div fxFlex="none" class="filter-remove">
+          <mat-icon>clear</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row wrap" (click)="addNewCondition()">
+    <button mat-mini-fab>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+<br>
+
+<div [ngSwitch]="view">
+  <div *ngSwitchCase="'newFilter'">
+    <filterDetail-component [lookupName]="lookupName" [columns]="columns" [filter]="newFilter"
+                            (stateOutput)="reducers($event)"></filterDetail-component>
+  </div>
+  <div *ngSwitchCase="'filter'">
+    <filterDetail-component [lookupName]="lookupName" [columns]="columns"
+                            (stateOutput)="reducers($event)"></filterDetail-component>
+  </div>
+  <div *ngSwitchCase="'condition'">
+    <mat-card>
+      <filter-condition [config]="conditionConfig" [conditionIndex]="selectedConditionIndex" [columns]="columns"
+                        (removeCondition)="hideCondition()"></filter-condition>
+    </mat-card>
+  </div>
+</div>

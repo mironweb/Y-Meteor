@@ -1,0 +1,18 @@
+.treenav-invisible {
+  display: none;
+}
+.treenav ul,
+.treenav li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+.treenav .mat-tree-node {
+  min-height: 40px;
+
+  .node-name {
+    position: relative;
+    padding: 4px 0;
+    cursor: pointer;
+  }
+}

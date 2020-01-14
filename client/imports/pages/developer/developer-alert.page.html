@@ -1,0 +1,67 @@
+<mat-card>
+  <section class="box">
+    <h2>{{alert.name}}</h2>
+
+    <mat-tab-group>
+        <mat-tab label="Alert Info">
+          <mat-form-field>
+            <input matInput [(ngModel)]="alert.name" name="name" type="text" placeholder="Name" (blur)="onBlurMethod($event.target.name, alert.name)"
+                   required #spy #nameLookup="ngModel">
+          </mat-form-field>
+          <div [hidden]="nameLookup.valid || nameLookup.pristine" [ngStyle]="{'color': 'red'}">
+            Name is required
+          </div>
+          <br>
+          <mat-form-field>
+            <input matInput [(ngModel)]="alert.schedule" name="schedule" type="text" placeholder="Scheduled Time" (blur)="onBlurMethod($event.target.name, alert.schedule)"
+                   required #spy #labelLookup="ngModel">
+          </mat-form-field>
+          <div [hidden]="labelLookup.valid || labelLookup.pristine" [ngStyle]="{'color': 'red'}">
+            Scheduled Time is required
+          </div>
+          <br>
+
+          <!--<div [hidden]="labelLookup.valid || labelLookup.pristine" [ngStyle]="{'color': 'red'}">-->
+            <!--Scheduled Time is required-->
+          <!--</div>-->
+          <br>
+          <mat-checkbox [(ngModel)]="alert.start" (click)="onBlurMethod('start', !alert.start)">
+            Start when app first runs?
+          </mat-checkbox>
+          <br>
+          <br>
+          <br>
+
+          <br>
+        </mat-tab>
+        <mat-tab label="Email">
+          <mat-form-field>
+            <input matInput [(ngModel)]="email.from" name="email.from" type="text" placeholder="From" (blur)="onBlurMethod($event.target.name, email.from)" required>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [(ngModel)]="email.to" name="email.to" type="text" placeholder="To" (blur)="onBlurMethod($event.target.name, email.to)" required>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [ngModel]="email.subject" name="email.subject" type="text" placeholder="Subject" (blur)="onBlurMethod($event.target.name, email.subject)" required>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [ngModel]="email.body" name="email.body" type="text" placeholder="Body" (blur)="onBlurMethod($event.target.name, email.body)" required>
+          </mat-form-field>
+        </mat-tab>
+      <mat-tab label="Data">
+        <mat-form-field>
+          <input matInput [ngModel]="data.value" name="data.value" type="text" placeholder="Price"  (blur)="onBlurMethod($event.target.name, data.value)" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [ngModel]="data.sentAt | date: 'yyyy-MM-dd'" name="data.sentAt" type="date" placeholder="Last email sent At" (blur)="onBlurMethod($event.target.name, data.sentAt)" readonly>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [ngModel]="data.updatedAt | date: 'yyyy-MM-dd'" name="data.updatedAt" type="date" placeholder="Last Updated At" (blur)="onBlurMethod($event.target.name, data.updatedAt)" readonly>
+        </mat-form-field>
+
+      </mat-tab>
+      </mat-tab-group>
+    <br>
+    <!--<a mat-raised-button color="warn" *ngIf="developer || !default" (click)="deleteLookup()">Delete</a>-->
+  </section>
+</mat-card>

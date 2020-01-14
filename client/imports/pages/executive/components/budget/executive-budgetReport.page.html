@@ -1,0 +1,225 @@
+<mat-card class='fullHeight'>
+  <h2 style='margin-top: 0px; float: left;'>Budget</h2>
+  <span class='cardIcons'>
+    <span *ngIf='accessAll'>
+      <i class="material-icons" (click)="openFileBrowser('')">attach_file</i>
+      <i *ngIf='selectedSales.length == 1' class="material-icons" (click)='changeView("budgetUpdate")'>exit_to_app</i>
+    </span>
+    <i *ngIf='selectedSales.length >= 1' class="material-icons" (click)='changeView("userDefinedBudget")'>list</i>
+    <i class="material-icons" *hasPermission="['generateExecReport']" (click)='overviewFunc()'>playlist_add</i>
+  </span>
+  <input [hidden]='true' #fileInput id='fileInput' type="file" (change)="onFileChange($event)" multiple="false" />
+
+  <span id='dashboardHeaderElement'>
+    <mat-form-field style='margin-top: 0px; float: right; width: 10%;'>
+      <mat-select #categoryInput placeholder="Category" (selectionChange)='onChange($event.value, "category")'
+        [(value)]="defaultCategoriesOfAccounts" [disabled]='allCategoriesOfAccounts.length == 1' multiple>
+        <span (mouseleave)="closeInput($event, 'categoryInput')">
+          <button style='width: 100%' mat-raised-button class="mat-primary fill text-sm" (click)='onChange(allCategoriesOfAccounts.length > defaultCategoriesOfAccounts.length ? allCategoriesOfAccounts : [], "category")'>
+            {{allCategoriesOfAccounts.length > defaultCategoriesOfAccounts.length ? 'Select All' : 'Deselect All'}}
+          </button>
+          <mat-option *ngFor="let category of allCategoriesOfAccounts" [value]="category">{{category}}</mat-option>
+        </span>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field style='margin-top: 0px; padding: 0px 10px 0px 0px; float: right; width: 10%;'>
+      <mat-select #dataInput placeholder="Chart Data" (selectionChange)='onChange($event.value, "chart")' [(value)]="defaultData"
+        multiple>
+        <span (mouseleave)="closeInput($event, 'dataInput')">
+          <button style='width: 100%' mat-raised-button class="mat-primary fill text-sm" (click)='onChange(allData.length > defaultData.length ? allData : [], "chart")'>
+            {{allData.length > defaultData.length ? 'Select All' : 'Deselect All'}}
+          </button>
+          <mat-option *ngFor="let data of allData" [value]="data" (click)='updateChart(data)'>{{data}}</mat-option>
+        </span>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf='accessAll || salesPeople.length > 1' style='margin-top: 0px; padding: 0px 10px 0px 0px; float: right; width: 15%;'>
+      <mat-select #salesPeopleInput placeholder="Salesperson" (selectionChange)='onChange($event.value, "salesperson")'
+        [(value)]="selectedSales" [disabled]="notOnlyRevenue" multiple>
+        <mat-select-trigger>
+          {{selectedSales.length > 0 ? 
+                   ((findElement(selectedSales[0], '_id', salesPeople).name.length>20)? (findElement(selectedSales[0], '_id', salesPeople).name | slice:0:20)+'..':(findElement(selectedSales[0], '_id', salesPeople).name))
+                   : ''}}
+          <span *ngIf="selectedSales?.length > 1" class="example-additional-selection">
+            (+{{selectedSales.length - 1}} {{selectedSales?.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+        <span (mouseleave)="closeInput($event, 'salesPeopleInput')">
+          <button style='width: 100%' mat-raised-button class="mat-primary fill text-sm" (click)='onChange(salesPeople.length > selectedSales.length ? arrayFromArrOfObj(salesPeople, "_id") : [], "salesperson")'>
+            {{salesPeople.length > selectedSales.length ? 'Select All' : 'Deselect All'}}
+          </button>
+          <mat-option *ngFor="let salesperson of salesPeople"
+            [value]="salesperson._id">
+            {{salesperson.name}}
+          </mat-option>
+        </span>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field style='margin-top: 0px; padding: 0px 10px 0px 0px; float: right; width: 15%;'>
+      <mat-select #productLineInput placeholder="Product Line" (selectionChange)='onChange($event.value, "productLine")'
+        [(value)]="selectedCategories" [disabled]="notOnlyRevenue" multiple>
+        <mat-select-trigger>
+          {{selectedCategories.length > 0 ? 
+            ((findElement(selectedCategories[0], '_id', categories)?.name.length>20)? (findElement(selectedCategories[0], '_id', categories)?.name | slice:0:20)+'..':(findElement(selectedCategories[0], '_id', categories)?.name))
+            : ''}}
+          <span *ngIf="selectedCategories?.length > 1" class="example-additional-selection">
+            (+{{selectedCategories.length - 1}} {{selectedCategories?.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+        <span (mouseleave)="closeInput($event, 'productLineInput')">
+          <button style='width: 100%' mat-raised-button class="mat-primary fill text-sm" (click)='onChange(categories.length > selectedCategories.length ? arrayFromArrOfObj(categories, "_id") : [], "productLine")'>
+            {{categories.length > selectedCategories.length ? 'Select All' : 'Deselect All'}}
+          </button>
+          <mat-option *ngFor="let category of categories" [value]="category._id">{{category.name}}</mat-option>
+        </span>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="!includes(defaultData, 'Budget')" style='margin-top: 0px; padding: 0px 10px 0px 0px; float: right; width: 15%;'>
+      <input type="text" placeholder="Customers" matInput [matAutocomplete]="auto" [formControl]="customerControl">
+      <mat-autocomplete #customerInput #auto="matAutocomplete" [displayWith]="displayFn" 
+      (opened)=opened() 
+      (closed)=closed() 
+      (optionSelected)="onChange($event, 'customer')">
+        <mat-option *ngFor="let customer of filteredCustomers | async" [value]="selectedCustomers">
+          <div>
+            <mat-checkbox color="primary" [checked]="customer.selected" (change)="toggleSelection(customer)" (click)="$event.stopPropagation()">
+              {{ customer.name }}
+            </mat-checkbox>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field style='margin-top: 0px; padding: 0px 10px 0px 0px; float: right; width: 15%;'>
+      <input matInput type="text" ngxDaterangepickerMd [(ngModel)]="selected" placeholder="Choose date"
+        (change)='dateChange($event)' autocomplete="off"/>
+        <mat-icon matSuffix class='material-icons md-18' (click)='selected = null; selectedRange = null;' style='cursor: pointer;'>clear</mat-icon>
+    </mat-form-field>
+  </span>
+  
+  <mat-progress-bar *ngIf='insertLoading > 0' mode="determinate" [value]="insertLoading"></mat-progress-bar>
+  <hr style='clear: both;'>
+  <div _id='capture' fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column">
+    <div class="chart-container" fxFlex="64.5" fxLayout="column" fxLayoutAlign="space-around">
+      <span *ngIf="!loading" style="margin: 0; height: 45vh; width: 100%;">
+        <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+          [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)">
+        </canvas>
+      </span>
+      <mat-spinner *ngIf="loading" style="height: 50px; width: 50px; float: left;" [hidden]="" class="app-spinner"></mat-spinner>
+    </div>
+    <div fxFlex="34.5" fxLayout="column" fxLayoutAlign="space-between">
+      <span style='position: relative;'>
+        <span *ngIf="defaultData.length == 3" style='position: absolute; right: 0px;'>
+          <strong>Budget </strong> 
+            <mat-slide-toggle
+              color="primary"
+              (change)="selectedToggle = $event.checked ? 'prior': 'budget'">
+            </mat-slide-toggle>
+          <strong> Prior</strong>
+        </span>
+        <span style='position: absolute; left: 0px;'>
+          <button mat-raised-button color="primary" (click)='init()'><i class="material-icons">refresh</i> Reload</button>
+        </span>
+
+        <span *ngIf='!selected?.startDate'>
+          <h3 style="text-align: center"><span [matMenuTriggerFor]="menu">{{formatMonthName(month)}} Sales</span></h3>
+          <mat-menu class='menuElement' #menu="matMenu">
+            <button mat-menu-item *ngFor="let month of lineChartLabels; let i = index" (click)='monthChange(i)'>{{formatMonthName(i)}}</button>
+          </mat-menu>
+          <div style="float: left">
+            <span *ngIf="includes(defaultData, 'Budget')">Budget:
+              <strong>{{numbersObject.range.budget | customCurrency}}</strong>
+              <br>
+            </span>
+            <span *ngIf="includes(defaultData, 'Actual')">Actual:
+              <strong>{{numbersObject.range.actual | customCurrency}}</strong>
+              <br>
+            </span>
+            <span *ngIf="includes(defaultData, 'Prior')">Prior:
+              <strong>{{numbersObject.range.prior | customCurrency}}</strong>
+              <br>
+            </span>
+            <span *ngIf="includes(defaultData, 'Prior') && (month == actualMonth)">{{thisYear - 1 }} MTD:
+              <strong>{{numbersObject.range.mtd | customCurrency}}</strong>
+            </span>
+          </div>
+          <div *ngIf='defaultData.length > 1' [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}"
+            style="float: right; text-align: right;" [style.color]="_getPercentChange(numbersObject.range) < 0 ? 'red' : 'green'">
+            <span style="font-size: 2em;">{{_getPlusOrMinus(numbersObject.range) | customCurrency}}</span><br>
+            <span style="font-size: 1.7em;">{{_getPercentChange(numbersObject.range) | percent:'1.1-2'}}</span>
+          </div>
+        </span>
+
+        <!-- RANGE -->
+        <span *ngIf='selected?.startDate'>
+          <h3 style="text-align: center">{{selectedRange.title}}</h3>
+          <div style="float: left">
+            <span *ngIf="includes(defaultData, 'Budget')">Budget:
+              <strong>{{selectedRange.budget | customCurrency}}</strong>
+              <br>
+            </span>
+            <span *ngIf="includes(defaultData, 'Actual')">Actual:
+              <strong>{{selectedRange.current | customCurrency}}</strong>
+              <br>
+            </span>
+            <span *ngIf="includes(defaultData, 'Prior')">Prior:
+              <strong>{{selectedRange.prior | customCurrency}}</strong>
+              <br>
+            </span>
+          </div>
+          <div *ngIf='defaultData.length > 1' [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}"
+            style="float: right; text-align: right;" [style.color]="getPercentChangeRange(selectedToggle, selectedRange) < 0 ? 'red' : 'green'">
+            <span style="font-size: 2em;">{{getPlusOrMinusRange(selectedToggle, selectedRange) | customCurrency}}</span><br>
+            <span style="font-size: 1.7em;">{{getPercentChangeRange(selectedToggle, selectedRange) | percent:'1.1-2'}}</span>
+          </div>
+        </span>
+        <!-- RANGE -->
+
+        <h3 style="text-align: center; clear: both">YTD Sales</h3>
+        <div style="float: left">
+          <span *ngIf="includes(defaultData, 'Budget')">Budget:
+            <strong>{{numbersObject.ytdSales.budget | customCurrency}}</strong>
+            <br>
+          </span>
+          <span *ngIf="includes(defaultData, 'Actual')">Actual:
+            <strong>{{numbersObject.ytdSales.actual | customCurrency}}</strong>
+            <br>
+          </span>
+          <span *ngIf="includes(defaultData, 'Prior')">Prior:
+            <strong>{{numbersObject.ytdSales.prior | customCurrency}}</strong>
+            <br>
+          </span>
+          <span *ngIf="includes(defaultData, 'Prior') && (month == actualMonth)">{{thisYear - 1}} YTD:
+            <strong>{{numbersObject.ytdSales.ytd | customCurrency}}</strong>
+          </span>
+        </div>
+        <div *ngIf='defaultData.length > 1' [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}"
+          style="float: right; text-align: right;" [style.color]="_getPercentChange(numbersObject.ytdSales) < 0 ? 'red' : 'green'">
+          <span style="font-size: 2em;">{{_getPlusOrMinus(numbersObject.ytdSales) | customCurrency}}</span><br>
+          <span style="font-size: 1.7em;">{{_getPercentChange(numbersObject.ytdSales) | percent:'1.1-2'}}</span>
+        </div>
+
+        <h3 style="text-align: center; clear: both">Total Sales</h3>
+        <div style="float: left">
+          <span *ngIf="includes(defaultData, 'Budget')">Budget:
+            <strong>{{numbersObject.totalSales.budget | customCurrency}}</strong>
+            <br>
+          </span>
+          <span *ngIf="includes(defaultData, 'Actual')">Actual:
+            <strong>{{numbersObject.totalSales.actual | customCurrency}}</strong>
+            <br>
+          </span>
+          <span *ngIf="includes(defaultData, 'Prior')">Prior:
+            <strong>{{numbersObject.totalSales.prior | customCurrency}}</strong>
+          </span>
+        </div>
+        <div *ngIf='defaultData.length > 1' [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}"
+          style="float: right; text-align: right;" [style.color]="_getPercentChange(numbersObject.totalSales) < 0 ? 'red' : 'green'">
+          <span style="font-size: 2em;">{{_getPlusOrMinus(numbersObject.totalSales) | customCurrency}}</span><br>
+          <span style="font-size: 1.7em;">{{_getPercentChange(numbersObject.totalSales) | percent:'1.1-2'}}</span>
+        </div>
+      </span>
+    </div>
+  </div>
+</mat-card>

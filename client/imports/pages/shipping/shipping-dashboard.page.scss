@@ -1,0 +1,30 @@
+.actions {
+    position: relative;
+    padding: 8px 0;
+    color: #777777;
+    font-size: 28px;
+    text-align: center;
+}
+form {
+    position: relative;
+    margin: 16px auto 0 auto;
+    max-width: 280px;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    mat-spinner {
+        position: absolute;
+        top: 16px;
+        right: 36px;
+    }
+
+    input[type=submit] {
+        display: none;
+    }
+
+    .icon {
+        font-size: 24px;
+    }
+}

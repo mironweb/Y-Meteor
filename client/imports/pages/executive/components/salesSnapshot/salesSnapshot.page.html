@@ -1,0 +1,26 @@
+<mat-card>
+  <div [hidden]='view !== "dashboard"'>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+      <executive-openorders fxFlex="33" [(data)]="data" (lookupView)='lookupView($event)'></executive-openorders>
+      <executive-freightreport fxFlex="33" [(data)]="data" (lookupView)='lookupView($event)'></executive-freightreport>
+    <executive-customerQuoteReport fxFlex="33" [(data)]="data" (lookupView)='lookupView($event)'></executive-customerQuoteReport>
+    </div>
+    <br>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+      <executive-monthlySales fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-monthlySales>
+      <executive-yearlySales fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-yearlySales>
+    </div>
+    <br>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+      <executive-monthlyIncomeStatement fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-monthlyIncomeStatement>
+      <executive-yearlyIncomeStatement fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-yearlyIncomeStatement>
+    </div>
+  </div>
+
+  <div [hidden]='view === "dashboard"'>
+    <button mat-icon-button style='float: right;' (click)="clearUrlParams()">
+      <mat-icon class="md-24">close</mat-icon>
+    </button>
+    <executive-lookup [(data)]="lookupData"></executive-lookup>
+  </div>
+</mat-card>

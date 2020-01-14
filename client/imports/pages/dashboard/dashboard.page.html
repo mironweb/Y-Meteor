@@ -1,0 +1,96 @@
+<div *ngIf="isInMaintenance == false">
+  <div *ngIf="isDim" class="dim">
+    <div id="blackout" style="display:block;" (click)="hideDim()">
+    </div>
+  </div>
+  <div style="height: 100%">
+    <div class="navbar-container" fxLayout="row">
+      <div class="sidenav-toggle" fxFlex="50px" fxLayoutAlign="space-around center">
+        <mat-icon
+          inline="true"
+          class="icon-menu"
+          style="font-size: 40px"
+          (click)="toggleSidenav()"
+        >
+          menu
+        </mat-icon>
+      </div>
+      <div fxFlex="50px" fxLayoutAlign="space-around center" class="logo">
+        <img style="width: 100%" src="img/g_icon.png" alt="Global The Source">
+      </div>
+      <div class="company-selector" fxFlex>
+        <div class="select-wrapper">
+          <mat-form-field>
+            <mat-select [placeholder]="placeholder" [(ngModel)]="selectedCompany" name="compoany" (ngModelChange)="onSelect($event)">
+              <mat-option *ngFor="let tenant of tenants" [value]="tenant">
+                {{ tenant.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-spinner [diameter]="30" class="app-spinner" *ngIf="!selectedCompany"></mat-spinner>
+        </div>
+        <page-header></page-header>
+      </div>
+      <div fxFlex="initial" fxLayoutAlign="space-around center" class="testWebsite" *ngIf="isTestWebsite">
+        <span class="full-text" title="Test Website">Test Website</span>
+        <span class="short" title="Test Website">T</span>
+      </div>
+      <div class="search-toggle open" matRipple fxFlex="45px" fxLayoutAlign="space-around center">
+        <mat-icon inline="true" (click)="openSearchBox()">search</mat-icon>
+      </div>
+      <div class="user-dropdown" fxFlex="45px" fxLayoutAlign="space-around center">
+        <user-dropdown></user-dropdown>
+      </div>
+      <div class="search-box" fxLayout="row" *ngIf="showSearchBox">
+        <div class="search-toggle close" matRipple fxFlex="40px" fxLayoutAlign="space-around center">
+          <mat-icon inline="true" (click)="closeSearchBox()">arrow_back</mat-icon>
+        </div>
+        <mat-form-field floatLabel="never" fxFlex>
+          <input matInput #input
+            placeholder="Type Search Text Here"
+            [(ngModel)]="searchInput"
+            (keyup.enter)="doSearch()"
+          >
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav
+        #sidenav
+        [mode]="mobile? 'over': 'side'"
+        [(opened)]="opened"
+        class="sidenav"
+      >
+        <sidenav (click)='test()'></sidenav>
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <div class="page-header-padding" style="height: 50px;"></div>
+        <page-header></page-header>
+        <div style="height: 50px;"></div>
+        <router-outlet (activate)="onActivate($event)"></router-outlet>
+      </mat-sidenav-content>
+      <!--<div class="dashboard-body mt-50" (scroll)="onScroll()">-->
+      <!--</div>-->
+    </mat-sidenav-container>
+    <div>
+      <fabButton (emitter)="toggleFab($event)"></fabButton>
+      <dashboard-report></dashboard-report>
+    </div>
+  </div>
+  <div style="position: absolute; z-index: 10000000">
+    <simple-notifications [options]="options"></simple-notifications>
+  </div>
+</div>
+<div *ngIf="isInMaintenance == true">
+  <img src="img/maintenance.jpg" style="width: 100%; height: 100%;">
+</div>
+
+<div *ngIf="isloading" style="position: fixed; height: 100%; width: 100%; z-index: 100" fxLayout="row" fxLayoutAlign="center center">
+  <div class="dim" style="position: fixed; height: 100%; width: 100%;">
+  </div>
+  <div style="position:fixed; z-index: 150">
+    <mat-spinner></mat-spinner>
+  </div>
+
+</div>

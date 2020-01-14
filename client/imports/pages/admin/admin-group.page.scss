@@ -1,0 +1,27 @@
+.actions {
+  border-bottom: 1px dotted #aaaaaa;
+
+  button {
+    margin-right: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+.permissions-wrapper {
+  display: flex;
+
+  treenav,
+  .side-panel {
+    width: 50%;
+  }
+
+  .side-panel {
+    padding-top: 8px;
+  }
+
+  .sticky {
+    position: sticky;
+    top: 0px;
+    max-width: 400px;
+  }
+}

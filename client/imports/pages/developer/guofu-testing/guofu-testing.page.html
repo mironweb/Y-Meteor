@@ -1,0 +1,84 @@
+<section class="box">
+  <!--<form [formGroup]="form" novalidate (submit)="submit(form.value, form.valid)">-->
+    <!--<div formGroupName="address">-->
+      <!--<label>Address</label>-->
+      <!--<mat-form-field>-->
+        <!--<input matInput formControlName="street" type="text" placeholder="street" name="street" value=""-->
+               <!--(blur)="onBlur($event.target.name)">-->
+      <!--</mat-form-field>-->
+      <!--&lt;!&ndash;<small&ndash;&gt;-->
+          <!--&lt;!&ndash;[hidden]="form.controls.address.controls.street.valid || (form.controls.address.controls.street.pristine && !submitted)">&ndash;&gt;-->
+        <!--&lt;!&ndash;street required&ndash;&gt;-->
+      <!--&lt;!&ndash;</small>&ndash;&gt;-->
+      <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
+        <!--&lt;!&ndash;<input matInput formControlName="postcode" type="text" placeholder="postcode" value="">&ndash;&gt;-->
+      <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
+      <!--&lt;!&ndash;<small&ndash;&gt;-->
+          <!--&lt;!&ndash;[hidden]="form.controls.address.controls.postcode.valid || (form.controls.address.controls.postcode.pristine && !submitted)">&ndash;&gt;-->
+        <!--&lt;!&ndash;postcode required&ndash;&gt;-->
+      <!--&lt;!&ndash;</small>&ndash;&gt;-->
+    <!--</div>-->
+    <!--&lt;!&ndash;<div formGroupName="address">&ndash;&gt;-->
+    <!--&lt;!&ndash;<label>Postcode</label>&ndash;&gt;-->
+    <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
+    <!--&lt;!&ndash;<input matInput formControlName="postcode" type="text" placeholder="postcode" value="">&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
+
+    <!--<button type="submit">Submit</button>-->
+    <!--&lt;!&ndash;<system-lookup [lookupName]="'manageCategoryProducts'" [documentId]="'xCI4laEHJWumRAADq'" [(config)]="config" [(data)]="data"></system-lookup>&ndash;&gt;-->
+    <!--&lt;!&ndash;<system-lookup [lookupName]="'contractPricing'" [(data)]="data"></system-lookup>&ndash;&gt;-->
+
+  <!--</form>-->
+
+
+  <div class="p-10">
+    <button [disabled]="isProcessing" mat-raised-button (click)="testFunc()">Start Testing
+    </button>
+  </div>
+
+
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let lookupTest of lookupTests">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="width: 50%">
+          {{lookupTest.lookupName}}: {{lookupTest.lookupId}}
+        </mat-panel-title>
+        <mat-panel-description style="width: 50%">
+          <span style="color: red" *ngIf="lookupTest.tests.length > 0">
+            {{lookupTest.numberOfErrors}} errors
+          </span>
+          <span style="color: green" *ngIf="lookupTest.tests.length == 0">
+            passed
+          </span>
+
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-expansion-panel *ngFor="let test of lookupTest.tests">
+        <mat-expansion-panel-header >
+          <mat-panel-title style="width: 50%">
+            {{test.message}}
+          </mat-panel-title>
+          <mat-panel-description style="width: 50%">
+            <span [ngStyle]="{'color': test.passed ? 'green' : 'red'}">
+              {{test.passed}}
+            </span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <!--<mat-form-field>-->
+        <!--<input matInput placeholder="First name">-->
+      <!--</mat-form-field>-->
+
+      <!--<mat-form-field>-->
+        <!--<input matInput placeholder="Age">-->
+      <!--</mat-form-field>-->
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+
+</section>
+

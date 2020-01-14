@@ -1,0 +1,27 @@
+#directions-panel{
+  margin-left: 15px;
+}
+.titleBar {
+  text-align: center;
+  color: white;
+  font-size: 45px;
+  display: table-cell;
+  vertical-align: middle;
+  height: 88px;
+  // background-color: rgb(247, 147, 30)
+}
+
+.headerParent {
+  width: 100%;
+  display: table;
+}
+
+.directionInputs {
+  width: 95%;
+}
+.hideSpinner {
+  display: none;
+}
+.changeOpacity {
+  opacity: .2;
+}

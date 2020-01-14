@@ -1,0 +1,40 @@
+<div id="login">
+  <h1>Welcome, please login and get started!</h1>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        placeholder="Email"
+        required
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        placeholder="Password"
+        required
+      >
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      aria-label="Sign In"
+      [disabled]="isSigning"
+    >
+      Sign In
+      <mat-spinner [diameter]="24" *ngIf="isSigning"></mat-spinner>
+    </button>
+
+    <a mat-button class="forgot" routerLink="/recover">
+      Forgot password?
+    </a>
+  </form>
+</div>
+<simple-notifications [options]="options"></simple-notifications>

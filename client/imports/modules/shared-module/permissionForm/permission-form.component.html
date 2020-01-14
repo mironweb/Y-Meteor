@@ -1,0 +1,65 @@
+<mat-card class="permission-form mat-elevation-z4">
+  <mat-card-content>
+    <h3>
+      Permission Details
+      <small *ngIf="permission._id">(ID: {{permission._id}})</small>
+    </h3>
+    <form (ngSubmit)="savePermission()" #permissionForm="ngForm">
+      <mat-form-field>
+        <input matInput id="name" name="name"
+          [(ngModel)]="permission.name" placeholder="Name"
+          required #name="ngModel" [readonly]="permission._id">
+        <mat-error [hidden]="name.valid || name.pristine">
+          This field is required.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="description" name="description"
+          [(ngModel)]="permission.description" placeholder="Description"
+          required #description="ngModel">
+        <mat-error [hidden]="description.valid || description.pristine">
+          This field is required.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select id="type" name="type" [(ngModel)]="permission.type">
+          <mat-option *ngFor="let type of types" [value]="type.value">
+            {{type.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="label" name="label"
+          [(ngModel)]="permission.label" placeholder="Label">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="url" name="url"
+          [(ngModel)]="permission.url" placeholder="URL">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="action" name="action"
+          [(ngModel)]="permission.action" placeholder="Action">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="sequence" name="sequence"
+          [(ngModel)]="permission.sequence" placeholder="Sequence">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="parentPermissionId" name="parentPermissionId"
+          [(ngModel)]="permission.parentPermissionId"
+          placeholder="Parent Permission ID">
+      </mat-form-field>
+      <div>
+        <button type="submit" mat-raised-button color="primary"
+          [disabled]="!permissionForm.form.valid">
+          SAVE
+        </button>
+        <button type="button" mat-button *ngIf="permission._id"
+          (click)="removePermission(permission._id)">
+          DELETE
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

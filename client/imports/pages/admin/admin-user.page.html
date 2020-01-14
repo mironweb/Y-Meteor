@@ -1,0 +1,101 @@
+<mat-card class="box">
+  <h2>
+    {{this.fullName}}
+    <a (click)="removeUser()" style="cursor: pointer">
+      <i class="material-icons">delete</i>
+    </a>
+  </h2>
+
+  <section >
+    <mat-tab-group>
+      <mat-tab label="User Info">
+
+        <mat-form-field>
+          <input matInput id="firstNameInput" name="profile.firstName" type="text" placeholder="First Name" [(ngModel)]="firstName" (blur)="onBlurMethod($event.target)">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <input matInput id="lastNameInput" name="profile.lastName" type="text" placeholder="Last Name" [(ngModel)]="lastName" (blur)="onBlurMethod($event.target)">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <input matInput id="usernameInput" name="username" type="email" placeholder="Username" [(ngModel)]="username" (blur)="onBlurMethod($event.target)" readonly>
+        </mat-form-field>
+
+        <!--<form>-->
+          <!--<mat-form-field style="width: 400px">-->
+            <!--<input matInput placeholder="Referred User" aria-label="User" [matAutocomplete]="auto" [formControl]="userCtrl">-->
+            <!--<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onUserSelected($event)" [displayWith]="displayFn">-->
+              <!--<mat-option *ngFor="let user of filteredUsers | async" [value]="user">-->
+                <!--<span>{{ user.username }}</span>-->
+              <!--</mat-option>-->
+            <!--</mat-autocomplete>-->
+          <!--</mat-form-field>-->
+
+          <!--<br />-->
+
+          <!--<mat-slide-toggle-->
+              <!--[checked]="userCtrl.disabled"-->
+              <!--(change)="userCtrl.disabled ? userCtrl.enable() : userCtrl.disable()">-->
+            <!--Disable Input?-->
+          <!--</mat-slide-toggle>-->
+        <!--</form>-->
+        <!--<mat-autocomplete>-->
+          <!--<mat-option *ngFor="let option of selections" [value]="option">-->
+            <!--{{ option }}-->
+          <!--</mat-option>-->
+        <!--</mat-autocomplete>-->
+
+        <br>
+        <mat-form-field style="width: 300px">
+          <mat-select placeholder="Referred User" (selectionChange)="onUserChange($event)" [(value)]="referredUser">
+            <mat-option *ngFor="let user of allUsers" [value]="user">
+              {{ user.username }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <br>
+        <mat-form-field>
+          <input matInput id="emailInput" name="email" type="email" placeholder="Email" [(ngModel)]="emailAddress" (blur)="onBlurMethod($event.target)" readonly>
+        </mat-form-field>
+        <br>
+
+        <mat-checkbox [(ngModel)]="changePassword">Change Password</mat-checkbox>
+
+        <br>
+        <br>
+        <form *ngIf="changePassword" (submit)="savePassword()" novalidate>
+          <mat-form-field>
+            <input matInput name="newPassword" type="password" placeholder="New Password"
+                   [(ngModel)]="user.newPassword" #password="ngModel" required>
+          </mat-form-field>
+          <small style="color: red" [hidden]="password.valid || (password.pristine)">
+            Password is required
+          </small>
+
+          <mat-form-field>
+            <input matInput name="confirmPassword" type="password" placeholder="Confirm Password"
+                   [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" validateEqual="password" required>
+          </mat-form-field>
+          <small style="color: red" [hidden]="confirmPassword.valid ||  (confirmPassword.pristine)">
+            Password mismatch
+          </small>
+          <br>
+
+          <button mat-input mat-raised-button type="button" color="primary" (click)="savePassword()">Save Password</button>
+
+        </form>
+      </mat-tab>
+      <mat-tab label="Manages">
+        <system-lookup [lookupName]="'manageUserManages'" [documentId]="documentId"></system-lookup>
+      </mat-tab>
+
+      <mat-tab label="Tenants">
+        <system-lookup #manageUserTenantsLookup [lookupName]="'manageUserTenants'" [documentId]="documentId" (onEvent)="onEvent($event)"></system-lookup>
+        <br>
+        <button mat-raised-button color="primary" (click)="addTenant()">Add Tenant</button>
+      </mat-tab>
+    </mat-tab-group>
+  </section>
+</mat-card>

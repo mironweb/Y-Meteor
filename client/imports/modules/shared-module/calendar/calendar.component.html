@@ -1,0 +1,51 @@
+<div>
+<ng-template #customCellTemplate let-day="day">
+  <div class="cal-cell-top" (click)="selectedUser = 'noUserSelected'; selectedPerson = noUserSelected">
+    <span class="cal-day-number">{{day.date | date:'MMM'}} {{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+  </div>
+  <!-- allMeetings -->
+  <div *ngIf='viewAll'>
+    <div *ngFor="let event of  day.events| groupBy:'user'" [style.backgroundColor]="event.value[0].personalColor"
+    class="viewAll"
+    (click)="selectedUser = event.key; clickBadges(day, dayEvents, event)">
+      {{event.value[0].initials}} {{ event.value.length }}
+    </div>
+  </div>
+
+  <!-- Individual -->
+  <div *ngIf='!viewAll'>
+    <div *ngFor="let event of  day.events | groupBy:'status'" class='individual' [style.backgroundColor]="event.value[0].color.primary"
+      style="margin-top: 2px;" (click)="selectedUser = event.key; clickBadges(day, dayEvents, event)">
+      <!-- {{event | json}}  -->
+      {{ event.value.length }} {{event.key | titlecase}}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template
+  #openDayEventsTemplate
+  let-events="events"
+  let-eventClicked="eventClicked">
+    <div *ngIf="selectedUser !== 'noUserSelected'" style="text-decoration: underline; margin-bottom: 5px;">{{selectedUser | titlecase}}</div>
+    <div *ngFor="let event of events" [hidden]="(event.user !== selectedUser && selectedUser !== 'noUserSelected') && (event.status !== selectedUser && selectedUser !== 'noUserSelected')">
+      <span class="cal-event" [style.backgroundColor]="event.color.primary">
+      </span>
+      <span style="cursor: pointer;" (mwlClick)="eventClicked.emit({event: event})">
+        {{event.dropDownTemplateTitle}}
+      </span>
+      <mwl-calendar-event-actions [event]="event"></mwl-calendar-event-actions>
+    </div>
+</ng-template>
+
+ <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="returnedEvents"
+    [excludeDays]="excludeDays"
+    [activeDayIsOpen]="activeDayIsOpen"
+    [refresh]="refresh"
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    [cellTemplate]="customCellTemplate"
+    [openDayEventsTemplate]="openDayEventsTemplate">
+ </mwl-calendar-month-view>
+</div>

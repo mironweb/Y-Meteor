@@ -1,0 +1,137 @@
+<div *ngIf="isDataReady && !view">
+  <form [formGroup]="customerMeeting" #addMeetingForm="ngForm" (submit)="_addMeeting(customerMeeting)">
+    <div>
+      <div *ngIf='!noteState' fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <mat-card style="position: relative;" fxFlex="50">
+          <mat-card-title>
+            Overview
+          </mat-card-title>
+          <!-- <button mat-raised-button color="primary" type="button" (click)='_sendEmail(customerMeeting.value)'>TEST BUTTON</button> -->
+
+          <div fxLayout="column">
+            <div flex *ngIf="meetingId">
+              <mat-form-field>
+                <input matInput placeholder="Sales Person" value="{{userName}}" readonly>
+              </mat-form-field>
+            </div>
+            <div flex>
+              <mat-form-field>
+                <mat-select formControlName="meetingType" placeholder="Meeting type"
+                  (selectionChange)="onBlurMethod('meetingType', $event.value)">
+                  <mat-option *ngFor="let type of meetingTypes" [value]="type">
+                    {{type}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div flex>
+              <mat-form-field (click)="goToStepper(0)">
+                <input matInput formControlName="customerName" placeholder="Customer" required readonly>
+                <mat-icon matSuffix class="cursor-pointer" (click)="editCustomer()">mode_edit</mat-icon>
+              </mat-form-field>
+            </div>
+            <div flex>
+              <mat-form-field (click)="goToStepper(1)">
+                <input matInput formControlName="branch" placeholder="Branch" required readonly>
+                <mat-icon matSuffix class="cursor-pointer" (click)="editBranch()">mode_edit</mat-icon>
+              </mat-form-field>
+            </div>
+            <div flex>
+              <mat-form-field (click)="goToStepper(2)">
+                <input matInput formControlName="contact" placeholder="Contact" readonly>
+                <mat-icon matSuffix class="cursor-pointer">mode_edit</mat-icon>
+              </mat-form-field>
+            </div>
+            <div flex>
+              <mat-form-field (click)="goToStepper(3)">
+                <input matInput placeholder="Start Date/Time" formControlName="dateTime" required readonly>
+                <mat-icon matSuffix class="cursor-pointer" (click)="editDate()">mode_edit</mat-icon>
+              </mat-form-field>
+            </div>
+            <div flex>
+              <mat-form-field class="endDateTime" (click)="goToStepper(3)">
+                <input matInput placeholder="End Date/Time" formControlName="endDateTime" required readonly>
+                <mat-icon matSuffix class="cursor-pointer" (click)="editDate()">mode_edit</mat-icon>
+              </mat-form-field>
+            </div>
+            <div flex>
+              <mat-form-field style="width: 200px;">
+                <mat-select formControlName="status" placeholder="Status" attr.disabled="{{completeStatus}}">
+                  <mat-option *ngFor="let status of statuses" [value]="status.value"
+                    (click)="onBlurMethod('status', status.value)">
+                    {{ status.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- <mat-card-title>
+              Follow-up
+            </mat-card-title> -->
+            <mat-slide-toggle color="primary" *ngIf='showCompleteButton'
+              (change)="followUp.followUpNeeded = $event.checked ? true: false">
+              Schedule Follow-up?
+            </mat-slide-toggle>
+            <div *ngIf='followUp.followUpNeeded && showCompleteButton' fxLayout="row">
+              <mat-form-field fxFlex fxFlex.gt-sm="25%">
+                <input matInput #dateFromDp="dpDayPicker" name="followupDateTime" [(ngModel)]="followUp.dateTime"
+                  [ngModelOptions]="{standalone: true}"
+                  (close)="closeFollowUpStartTime()" [dpDayPicker]="dateTimeConfig" theme="dp-material"
+                  mode="daytime" attachTo=".mat-form-field-infix" placeholder="Follow-up Start Date/Time" required>
+              </mat-form-field>
+              <mat-form-field fxFlex fxFlexOffset="5px" fxFlex.gt-sm="25%">
+                <input matInput #dateToDp="dpDayPicker" name="followupEndDateTime" [(ngModel)]="followUp.endDateTime"
+                  [ngModelOptions]="{standalone: true}"
+                  [dpDayPicker]="dateTimeConfig" theme="dp-material"
+                  mode="daytime" attachTo=".mat-form-field-infix" placeholder="Follow-up End Date/Time" required>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card fxFlex *ngIf="documentId" style="padding-left: 10px">
+          <mat-card-title>
+            Recent Activity
+          </mat-card-title>
+          <div class="quotesMeetings p-10" *ngIf="documentId" class="removeShadow">
+            <system-lookup [lookupName]="'customerRecentActivity'"[config]="lookupConfig" [isModal]="true" [documentId]="documentId" (onSelected)="select($event)" [(data)]="data"></system-lookup>
+          </div>
+        </mat-card>
+      </div>
+      <br>
+      <div>
+        <meetingNotes (activeState)='getState($event)' (emitNotes)='getNotes()' [(meetingData)]="meetingId ? meeting : customerMeeting.value"></meetingNotes>
+      </div>
+ 
+      <br>
+      <button mat-raised-button color="primary" type="submit" *ngIf="!meetingId && !showCompleteButton" [disabled]="!addMeetingForm.form.valid">Add Meeting</button>
+      <!-- <button mat-raised-button color="warn" type="button" *ngIf="meetingId && !completeStatus && isUserMeeting" (click)="openDialog()">Delete Meeting</button>
+      <button mat-raised-button color="primary" type="button" *ngIf="showCompleteButton" [disabled]="!addMeetingForm.form.valid" (click)="_completeMeeting(customerMeeting)">Complete Meeting</button> -->
+    </div>
+  </form>
+</div>
+
+<mat-card *ngIf="view === 'selectCustomer'">
+  <button mat-icon-button style='float: right;' (click)="showView('')">
+    <mat-icon class="mat-24">close</mat-icon>
+  </button>
+
+  <system-lookup [isModal]="true" lookupName="customers" (onSelected)="addCustomer($event)"></system-lookup>
+</mat-card>
+
+<mat-card *ngIf="view === 'selectBranch' && customerId">
+  <button mat-icon-button style='float: right;' (click)="showView('')">
+    <mat-icon class="mat-24">close</mat-icon>
+  </button>
+
+  <system-lookup [isModal]="true" lookupName="customerMeetingsBranches" [documentId]="documentId" (onSelected)="addBranch($event)"></system-lookup>
+</mat-card>
+<mat-card *ngIf="view === 'selectBranch' && !customerId">
+  <button mat-icon-button style='float: right;' (click)="showView('')">
+    <mat-icon class="mat-24">close</mat-icon>
+  </button>
+
+  <system-lookup [isModal]="true" lookupName="customerMeetingsBranchesAll" [documentId]="documentId" (onSelected)="addBranch($event)"></system-lookup>
+</mat-card>
+
+<mat-card *ngIf="!isDataReady">
+  <mat-spinner class="app-spinner"></mat-spinner>
+</mat-card>

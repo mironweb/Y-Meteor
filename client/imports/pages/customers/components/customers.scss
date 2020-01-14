@@ -1,0 +1,119 @@
+.select-containter {
+  border: 1px solid #cbd4df;
+  padding: 10px;
+}
+
+.ph-24 {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+#blackout {
+  width:100%;
+  height:100%; /* make sure you have set parents to a height of 100% too*/
+  position: absolute;
+  left:0; top:0;
+  z-index:10; /*just to make sure its on top*/
+  opacity: .4;
+  background-color: gray;
+}
+
+.blueBackground {
+  background: #3f51b5;
+  color: white;
+}
+
+.greenBackground {
+  background: green;
+  color: white;
+}
+
+.selectorForm > div {
+  margin-bottom: 10px
+}
+
+.mat-form-field {
+  width: 100%;
+  font-size: 14px;
+  flex-grow: 1;
+  margin-right: 32px;
+}
+
+.mat-table {
+  overflow: auto;
+}
+
+.textarea {
+  width: 100%
+}
+
+div.mat-tab-body-content {
+  overflow: unset !important;
+}
+
+.noteInputField {
+  width: 30%
+}
+
+.chip {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+fieldset {
+  border: 1px solid #cbd4df;
+  width: 400px;
+}
+
+body {
+  display: none;
+}
+
+#noteTabGroup{
+  ::ng-deep .mat-tab-body-content{
+    overflow: hidden;
+  }
+}
+
+#tables {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#tables td, #tables th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tables tr:nth-child(even){background-color: #f2f2f2;}
+
+#tables tr:hover {background-color: #ddd;}
+
+#tables th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(160, 160, 160);
+    color: white;
+}
+
+.breadCrumb {
+    padding: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    h2 {
+      margin: 0px;
+    }
+}
+//.select-containter {
+//  border: 1px solid #cbd4df;
+//  padding: 10px;
+//}
+//
+//.float-right{
+//  float: right;
+//}
+//.size-24 {
+//  height: 24px;
+//  width: 24px;
+//}

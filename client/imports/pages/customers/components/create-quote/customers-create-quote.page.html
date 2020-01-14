@@ -1,0 +1,118 @@
+<div class="subHeader">
+  <h2>
+    <mat-icon class="cursor-pointer" [routerLink]="['/customers/quotes']">chevron_left</mat-icon>
+    Create Customer Quote
+  </h2>
+</div>
+<mat-card [ngClass]="{
+  'hidden': !state.isMainContentShown
+}">
+  <form [formGroup]="customerQuote" #addQuoteForm="ngForm">
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between stretch"
+           class="selectorForm">
+        <div fxFlex="48" fxFlex.xs="100" class="select-containter" (click)="showCustomersList()">
+          <div>CUSTOMER</div>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="customerDisplay" placeholder="Customer" readonly>
+          </mat-form-field>
+        </div>
+        <div fxFlex="4">
+        </div>
+        <div fxFlex="48" class="select-containter" (click)="showCategoriesList()">
+          <div>PRODUCT LINE</div>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="categoryDisplay" placeholder="Product Line" readonly>
+          </mat-form-field>
+        </div>
+      </div>
+      <br>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="100" class="select-containter">
+          <div>NOTES</div>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="notes" placeholder="Notes">
+          </mat-form-field>
+        </div>
+      </div>
+      <br>
+    <button [disabled]="disableSubmit" style='margin-bottom: 5px;' mat-raised-button color="primary" type="button" (click)="submitQuote()">Submit Quote</button>
+    <div *ngIf="this.data.customerId && this.data.categoryId">
+            <system-lookup [lookupName]="'createQuote'" (_onMobileClick)="onMobileClick($event)" (emitDataChange)="onSelect($event)"
+              (onSelected)="onSelect($event)" [(data)]="data"></system-lookup>
+      <!-- <system-lookup [lookupName]="'createQuote'" (_onMobileClick)="onMobileClick($event)"
+                     (onSelected)="onSelect($event)" [(data)]="data"></system-lookup> -->
+    </div>
+  </form>
+</mat-card>
+
+<mat-card *ngIf="state.isCustomersListShown">
+  <button mat-raised-button color="primary" type="button" (click)="showMainContent()">Back</button>
+  <br>
+  <!--<filterBox-component lookupName="customers" (modalData)="getModalData(data)"></filterBox-component>-->
+  <system-lookup [isModal]="true" lookupName="customers" [data]="customersLookupData" (onSelected)="clickCustomer($event)"></system-lookup>
+</mat-card>
+
+<mat-card *ngIf="state.isCategoriesListShown">
+  <button mat-raised-button color="primary" type="button" (click)="showMainContent()">Back</button>
+  <br>
+  <system-lookup [isModal]="true" #selectCategory lookupName="selectCategoryOnQuote" (onSelected)="clickCategory($event)"></system-lookup>
+</mat-card>
+
+
+<mat-card *ngIf="state.isSingleDocumentShown">
+  <form [formGroup]="quoteForm" novalidate>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="product" formControlName="product" readonly aria-readonly=""/>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="description" formControlName="description" readonly aria-readonly=""/>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="price" formControlName="price" readonly aria-readonly=""/>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input type="text" [ngClass]="{
+        'greenBackground': state.newQuotePriceTag == 'override'
+}" style="padding: 5px" matInput
+             (change)="setQuotePrice('override')"
+             placeholder="override" formControlName="override"/>
+    </mat-form-field>
+
+    <table>
+      <tr>
+        <td>Level1</td>
+        <td>
+          <button [ngClass]="{
+        'blueBackground': state.quotePriceTag == 'level1',
+                'greenBackground': state.newQuotePriceTag == 'level1'
+
+}" type="button" (click)="setQuotePrice('level1')" mat-raised-button>{{quoteForm.controls.level1.value}}</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Level2</td>
+        <td>
+          <button [ngClass]="{
+        'blueBackground': state.quotePriceTag == 'level2',
+                'greenBackground': state.newQuotePriceTag == 'level2'
+
+        }" (click)="setQuotePrice('level2')" type="button" mat-raised-button>{{quoteForm.controls.level2.value}}</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Level3</td>
+        <td>
+          <button [ngClass]="{
+        'blueBackground': state.quotePriceTag == 'level3',
+                'greenBackground': state.newQuotePriceTag == 'level3'
+
+        }" (click)="setQuotePrice('level3')" type="button" mat-raised-button>{{quoteForm.controls.level3.value}}</button>
+        </td>
+      </tr>
+    </table>
+
+    <button mat-raised-button color="primary" type="submit" (click)="saveQuotePrice()">Save</button>
+    <button mat-raised-button color="accent" type="button" (click)="showMainContent()">Back</button>
+  </form>
+</mat-card>
+

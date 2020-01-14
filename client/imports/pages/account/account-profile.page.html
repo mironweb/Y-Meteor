@@ -1,0 +1,13 @@
+<!-- <page-header></page-header> -->
+<!-- <div>{{selectedUrl | json}}</div> -->
+<mat-card>
+    <mat-form-field>
+        <mat-select placeholder="Landing Page" [(ngModel)]="selectedUrl" (ngModelChange)="onSelect()">
+            <mat-optgroup *ngFor="let group of menus" [label]="group.sidenavLabel">
+                <mat-option *ngFor="let route of group.routes" [value]="route">
+                    {{route.sidenavLabel}}
+                </mat-option>
+            </mat-optgroup>
+        </mat-select>
+    </mat-form-field>
+</mat-card>

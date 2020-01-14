@@ -1,0 +1,14 @@
+<!-- <page-header></page-header> -->
+<mat-card>
+  <div class="filterContainer" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="50">
+      <!-- <button mat-raised-button color="primary" style="margin-right: 10px" (click)="returnToOldApp()">Old App</button> -->
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <filterBox-component fxFlex='100' (filter)="getFilterConditions($event)" [lookupName]="'customerQuotes'"></filterBox-component>
+  </div>
+  <section id="customerQuote">
+    <system-lookup [lookupName]="'customerQuotes'" [isModal]="false" [(data)]="data" (onSelected)="select($event)" [documentId]="documentId" [(filterConditions)]="filterConditions"></system-lookup>
+  </section>
+</mat-card>

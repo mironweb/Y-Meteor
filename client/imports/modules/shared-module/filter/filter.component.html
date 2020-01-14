@@ -1,0 +1,29 @@
+<mat-card>
+  <div fxLayout="row wrap">
+    <div fxFlex="none" style="margin-right: 20px;">
+      <h2>Add Filter</h2>
+    </div>
+    <div fxFlex="20%">
+      <mat-form-field>
+        <input matInput placeholder="Unsaved Filter">
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row wrap">
+    <div fxFlex="none" style="margin-right: 20px;">
+      <mat-select [(ngModel)]="selectedColumn" name="column">
+        <mat-option *ngFor="let column of columns" [value]="column">
+          {{ column.name }}
+        </mat-option>
+      </mat-select>
+    </div>
+    <div fxFlex="">
+      <mat-select [(ngModel)]="selectedMethod" name="methods">
+        <mat-option *ngFor="let method of filterMethods" [value]="method">
+          {{ method.name }}
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+</mat-card>
+<br>

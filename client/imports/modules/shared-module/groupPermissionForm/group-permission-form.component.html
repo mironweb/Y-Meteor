@@ -1,0 +1,30 @@
+<mat-card class="group-permission-form mat-elevation-z4">
+  <mat-card-content>
+    <h3>
+      Permission Details
+      <small *ngIf="permission._id">(ID: {{permission._id}})</small>
+    </h3>
+    <table>
+      <tr *ngFor="let prop of visibleProperties">
+        <td class="label">{{prop.viewValue}}</td>
+        <td>{{permission[prop.value]}}</td>
+      </tr>
+    </table>
+    <form (ngSubmit)="savePermission()" #permissionForm="ngForm">
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select id="status" name="status" [(ngModel)]="permission.status">
+          <mat-option *ngFor="let item of status" [value]="item.value">
+            {{item.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button type="submit" mat-raised-button color="primary"
+          [disabled]="!permissionForm.form.valid">
+          SAVE
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

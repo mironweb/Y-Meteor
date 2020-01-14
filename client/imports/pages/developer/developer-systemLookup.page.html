@@ -1,0 +1,82 @@
+<mat-card>
+  <section class="box" id="eachSystemLookup">
+    <h2>
+      {{this.name}}
+      <a *ngIf="developer || !default" (click)="deleteLookup()" style="cursor: pointer">
+        <i class="material-icons">delete</i></a>
+    </h2>
+    <form (ngSubmit)="onSubmit()" #editLookupForm="ngForm">
+      <mat-tab-group>
+        <mat-tab label="Lookup">
+          <mat-form-field>
+            <input matInput id="nameInput" [(ngModel)]="nameInput" name="name" type="text" placeholder="Name"
+                   (blur)="onBlurMethod()"
+                   required #spy #nameLookup="ngModel">
+          </mat-form-field>
+          <small [hidden]="nameLookup.valid || nameLookup.pristine" [ngStyle]="{'color': 'red'}">
+            Name is required
+          </small>
+          <br>
+          <mat-form-field>
+            <input matInput id="labelInput" [(ngModel)]="labelInput" name="label" type="text" placeholder="Label"
+                   (blur)="onBlurMethod()"
+                   required #spy #labelLookup="ngModel">
+          </mat-form-field>
+          <small [hidden]="labelLookup.valid || labelLookup.pristine" [ngStyle]="{'color': 'red'}">
+            Label is required
+          </small>
+          <br>
+          <mat-checkbox class="searchableCheck" [(ngModel)]="searchableInput" (blur)="onBlurMethod()"
+                        [ngModelOptions]="{standalone: true}" (click)="onBlurMethod()">
+            Searchable
+          </mat-checkbox>
+          <br>
+          <br>
+        </mat-tab>
+        <mat-tab label="Subscriptions">
+          <mat-form-field>
+            <textarea matInput resizeToFitContent id="subscriptionsInput" rows="30" [(ngModel)]="subscriptionsInput"
+                      name="subscriptions" type="text" placeholder="Subscriptions" required #spy
+                      #subscriptionsLookup="ngModel"
+                      (keyup)="validJsonSubs()" (blur)="onBlurMethod()"></textarea>
+          </mat-form-field>
+          <small [hidden]="subscriptionsLookup.valid || subscriptionsLookup.pristine" [ngStyle]="{'color': 'red'}">
+            Subscriptions is required
+          </small>
+          <small *ngIf="!validJsonErrorSubs" [ngStyle]="{'color': 'red'}">
+            Not valid JSON
+          </small>
+        </mat-tab>
+        <mat-tab label="Methods">
+          <mat-form-field>
+            <textarea matInput resizeToFitContent id="methodsInput" rows="30" [(ngModel)]="methodsInput" name="methods"
+                      type="text" placeholder="Methods" required #spy #methodsLookup="ngModel"
+                      (keyup)="validJsonMethods()" (blur)="onBlurMethod()"></textarea>
+          </mat-form-field>
+          <small [hidden]="methodsLookup.valid || methodsLookup.pristine" [ngStyle]="{'color': 'red'}">
+            Methods is required
+          </small>
+          <small *ngIf="!validJsonErrorMethods" [ngStyle]="{'color': 'red'}">
+            Not valid JSON
+          </small>
+        </mat-tab>
+        <mat-tab label="Data Table">
+          <mat-form-field>
+            <textarea matInput resizeToFitContent id="dataTableInput" rows="30" [(ngModel)]="dataTableInput"
+                      name="dataTable" type="text" placeholder="Date Table"
+                      (keyup)="validJsonDataTable()" (blur)="onBlurMethod()"
+                      required #spy #dataTableLookup="ngModel"></textarea>
+          </mat-form-field>
+          <small [hidden]="dataTableLookup.valid || dataTableLookup.pristine" [ngStyle]="{'color': 'red'}">
+            Data Table is required
+          </small>
+          <small *ngIf="!validJsonErrorDataTable" [ngStyle]="{'color': 'red'}">
+            Not valid JSON
+          </small>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+    <br>
+    <!-- <a mat-raised-button color="warn" *ngIf="developer || !default" (click)="deleteLookup()">Delete</a> -->
+  </section>
+</mat-card>

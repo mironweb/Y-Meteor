@@ -1,0 +1,17 @@
+<div class="sidenav">
+  <mat-nav-list dense *ngFor="let menu of menus">
+    <h4 matSubheader>{{menu.sidenavLabel}}</h4>
+    <a mat-list-item
+      routerLink="{{route.url}}"
+      routerLinkActive="active"
+      (click)="defaultFilterSet = false"
+      *ngFor="let route of menu.routes"
+    >
+      <mat-icon matListIcon>{{route.icon ? route.icon : 'link'}}</mat-icon>
+      <!-- <mat-icon matListIcon><i class="{{'fas fa-link'}}"></i></mat-icon> -->
+      <!-- <mat-icon matListIcon><span class="mdi mdi-home"></span></mat-icon> -->
+      <!-- <span class="mdi mdi-link"></span> -->
+      <span matLine>{{route.sidenavLabel}}</span>
+    </a>
+  </mat-nav-list>
+</div>

@@ -1,0 +1,19 @@
+<div *ngIf="!isProcessing">
+  <div *ngIf="buttons.length > 0">
+    <button mat-fab [matMenuTriggerFor]="menu">
+      <mat-icon class="md-24" aria-label="Example icon-button with a heart icon">{{buttonIcon}}</mat-icon>
+    </button>
+    <div style="position: fixed; margin-bottom: 50px">
+      <mat-menu #menu="matMenu" (close)="closed('tap')" (open)="open($event)"  [yPosition]="'above'">
+        <button mat-menu-item *ngFor="let button of buttons" (click)="onClick(button)" style="width: 210px;">
+          <mat-icon>{{button.icon}}</mat-icon>
+          <span>{{button.title}}</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isProcessing" style="position: fixed; bottom: 25px; right: 25px;">
+  <mat-spinner [diameter]="50"></mat-spinner>
+</div>

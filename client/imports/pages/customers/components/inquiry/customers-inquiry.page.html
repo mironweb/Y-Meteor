@@ -1,0 +1,177 @@
+<div class="subHeader" *ngIf="view">
+    <h2>{{customerLabel}} <span *ngIf='view === "productDetails"'>/ {{categorySelectedLabel}}</span></h2>
+</div>
+<br>
+<mat-card *ngIf="!view">
+  <div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between stretch"
+         class="selectorForm">
+      <div fxFlex="30" fxFlex.xs="50" class="select-containter" (click)="showView('selectCustomer')">
+        <label>Select Customer</label>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Select Customer" readonly aria-readonly value='{{customerLabel}}'>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between" fxLayoutAlign.xs="space-between stretch"
+         class="selectorForm">
+      <div fxFlex="69.75" class="select-containter" *ngIf='customerLabel'>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
+          <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-around">
+            <h2>Sales Year-To-Date</h2>
+            <div class="chart-container" style="margin: 0 auto; height: 40vh; width: 100%;">
+              <canvas *ngIf='!selectedSalesperson' baseChart [data]="doughnutChartData" [options]="chartOptions" [colors]="pieChartColors"
+                [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)" (chartClick)="showView('categoryDetails')"></canvas>
+              <canvas *ngIf='selectedSalesperson' baseChart [data]="salesDoughnutChartData" [options]="chartOptions" [colors]="pieChartColors"
+                [labels]="salesDoughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)" (chartClick)="showView('categoryDetails')"></canvas>
+            </div>
+          </div>
+          <div fxFlex="50" fxLayout="column" fxLayoutAlign="space-between">
+            <div fxFlex="25">
+              <mat-form-field style='width: 96%;' class="select-containter" *ngIf='viewAllPermission || this.managedUsers.length > 0'>
+                <mat-select placeholder="SALESPERSON" [(ngModel)]="selectedSalesperson" (ngModelChange)="onSelect($event)">
+                  <mat-option *ngIf='viewAllPermission'>None</mat-option>
+                  <mat-option *ngFor="let salesperson of customerSalesPeople" [value]="salesperson._id">{{salesperson.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="75">
+              <span *ngIf='!selectedSalesperson || !viewAllPermission'>
+                <h3 style="text-align: center">Total Customer Sales</h3>
+                <div *ngIf='viewAllPermission' style="float: left">
+                  <span>{{lastYear}} - <strong>{{customerInquiryTotals.lastYearCustomerSales | currency:'USD':'symbol':'2.2-2'}}</strong></span>
+                  <br>
+                  <span>{{currentYear}} - <strong>{{customerInquiryTotals.thisYearCustomerSales | currency:'USD':'symbol':'2.2-2'}}</strong></span>
+                </div>
+                <div *ngIf='!viewAllPermission' style="float: left">
+                  <span>{{lastYear}} -
+                    <strong>{{customerInquiryTotals.lastYearTotalSalesCustomer | currency:'USD':'symbol':'2.2-2'}}</strong>
+                  </span>
+                  <br>
+                  <span>{{currentYear}} -
+                    <strong>{{customerInquiryTotals.thisYearTotalSalesCustomer | currency:'USD':'symbol':'2.2-2'}}</strong>
+                  </span>
+                </div>
+                <div *ngIf='viewAllPermission' [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}" style="float: right; font-size: 2em" [style.color]="customerInquiryTotals.customerPercentChange < 0 ? 'red' : 'green'">
+                  {{customerInquiryTotals.customerPercentChange | percent:'1.1-2'}}
+                </div>
+                <div *ngIf='!viewAllPermission' [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}" style="float: right; font-size: 2em" [style.color]="customerInquiryTotals.salesCustomerTotalPercentChange < 0 ? 'red' : 'green'">
+                  {{customerInquiryTotals.salesCustomerTotalPercentChange | percent:'1.1-2'}}
+                </div>
+                <br>
+                <br>
+              </span>
+              <span *ngIf='selectedSalesperson && viewAllPermission'>
+                <h3 style="text-align: center">Salesperson Customer Sales</h3>
+                <div style="float: left">
+                  <span>{{lastYear}} - <strong>{{customerInquiryTotals.lastYearTotalSalesCustomer | currency:'USD':'symbol':'2.2-2'}}</strong></span>
+                  <br>
+                  <span>{{currentYear}} - <strong>{{customerInquiryTotals.thisYearTotalSalesCustomer | currency:'USD':'symbol':'2.2-2'}}</strong></span>
+                </div>
+                <div [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}" style="float: right; font-size: 2em" [style.color]="customerInquiryTotals.salesCustomerTotalPercentChange < 0 ? 'red' : 'green'">
+                  {{customerInquiryTotals.salesCustomerTotalPercentChange | percent:'1.1-2'}}
+                </div>
+                <br>
+                <br>
+              </span>
+              <span *ngIf='selectedSalesperson'>
+                <h3 style="text-align: center">Salesperson Total Sales</h3>
+                <div style="float: left">
+                  <span>{{lastYear}} - <strong>{{customerInquiryTotals.lastYearTotalSalesPerson | currency:'USD':'symbol':'2.2-2'}}</strong></span>
+                  <br>
+                  <span>{{currentYear}} - <strong>{{customerInquiryTotals.thisYearTotalSalesPerson | currency:'USD':'symbol':'2.2-2'}}</strong></span>
+                </div>
+                <div [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}" style="float: right; font-size: 2em" [style.color]="customerInquiryTotals.salespersonPercentChange < 0 ? 'red' : 'green'">
+                  {{customerInquiryTotals.salespersonPercentChange | percent:'1.1-2'}}
+                </div>
+                <br>
+                <br>
+              </span>
+              <span *ngIf='viewAllPermission'>
+                <h3 style="clear: both; text-align: center">Total Global Sales</h3>
+                <div style="float: left">
+                  <span>{{lastYear}} - <strong>{{customerInquiryTotals.lastYearSales | currency:'USD':'symbol':'2.2-2'}}</strong></span>
+                  <br>
+                  <span>{{currentYear}} - <strong>{{customerInquiryTotals.thisYearSales | currency:'USD':'symbol':'2.2-2'}}</strong></span>
+                </div>
+                <div [ngStyle.xs]="{'font-size': '1.5em'}" [ngStyle.sm]="{'font-size': '1.5em'}" style="float: right; font-size: 2em" [style.color]="customerInquiryTotals.totalPercentChange < 0 ? 'red' : 'green'">
+                  {{customerInquiryTotals.totalPercentChange | percent:'1.1-2'}}
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="29.75" class="select-containter" *ngIf='customerLabel'>
+
+      </div>
+    </div>
+    <div *ngIf='customerLabel' fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between" fxLayoutAlign.xs="space-between stretch" class="selectorForm">
+      <div fxFlex="49.75" class="select-containter">
+        <h2 style='margin-top: 0px; float: left;'>Last 5 Invoices</h2>
+        <span class='cardIcons'>
+          <i class="material-icons" (click)="redirect('invoice')">exit_to_app</i>
+        </span>
+        <br style="clear: both;">
+        <normal-table [rows]="invoiceTable.rows" (onSelected)="normalTableRowSelect($event, 'invoice')" [columns]="invoiceTable.columns"></normal-table>
+      </div>
+      <div fxFlex="49.75" class="select-containter">
+        <h2 style='margin-top: 0px; float: left;'>Backordered Items</h2>
+        <span class='cardIcons'>
+          <i class="material-icons" (click)="redirect('order')">exit_to_app</i>
+        </span>
+        <br style="clear: both;">
+        <normal-table [rows]="backOrderedTable.rows" (onSelected)="normalTableRowSelect($event, 'order')" [columns]="backOrderedTable.columns"></normal-table>
+      </div>
+    </div> 
+  </div>
+  
+  <!-- <mat-spinner *ngIf="loading" style="height: 50px; width: 50px; float: left;" [hidden]="" class="app-spinner"></mat-spinner> -->
+</mat-card>
+
+
+<mat-card *ngIf="view === 'selectCustomer'">
+  <button mat-icon-button style='float: right;' (click)="showView('')">
+    <mat-icon class="mat-24">close</mat-icon>
+  </button>
+
+  <system-lookup [isModal]="true" lookupName="customers" [data]="customersLookupData" (onSelected)="addCustomer($event)"></system-lookup>
+</mat-card>
+
+<mat-card *ngIf="view === 'categoryDetails'">
+  <!-- <span>
+    <span>CUSTOMER INQUIRY</span>
+    <span> > {{customerLabel}}</span>
+  </span> -->
+  <button mat-icon-button style='float: right;' (click)="showView('')">
+    <mat-icon class="mat-24">close</mat-icon>
+  </button>
+  <span *ngIf="!data.selectedSalesperson">
+    <system-lookup [lookupName]="'categoryDetails'" [isModal]="false" [(data)]="data" (onSelected)="selectCategoryRow($event)" [documentId]="documentId"
+      [(filterConditions)]="filterConditions"></system-lookup>
+  </span>
+  <span *ngIf="data.selectedSalesperson">
+    <system-lookup [lookupName]="'categoryDetailsSalesPerson'" [isModal]="false" [(data)]="data" (onSelected)="selectCategoryRow($event)" [documentId]="documentId"
+      [(filterConditions)]="filterConditions"></system-lookup>
+  </span>
+</mat-card>
+
+<mat-card *ngIf="view === 'productDetails'">
+  <!-- <span>
+    <span>CUSTOMER INQUIRY</span>
+    <span> > {{customerLabel}}</span>
+    <span> > {{categorySelectedLabel}} </span>
+  </span> -->
+  <button mat-icon-button style='float: right;' (click)="showView('')">
+    <mat-icon class="mat-24">close</mat-icon>
+  </button>
+  <span *ngIf="!data.selectedSalesperson">
+    <system-lookup [lookupName]="'productDetails'" [isModal]="false" [(data)]="data" [documentId]="documentId"
+      [(filterConditions)]="filterConditions"></system-lookup>
+  </span>
+  <span *ngIf="data.selectedSalesperson">
+    <system-lookup [lookupName]="'productDetailsSalesPerson'" [isModal]="false" [(data)]="data" [documentId]="documentId"
+      [(filterConditions)]="filterConditions"></system-lookup>
+  </span>
+</mat-card>
+

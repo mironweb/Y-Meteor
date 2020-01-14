@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Warning</h1>
+<div mat-dialog-content>
+
+  <div [ngSwitch]="data?.template">
+    <div *ngSwitchCase="'enableCompleteOrder'">
+      <div style="display: flex; align-content: center; align-items: center; padding: 10px;">
+        <mat-checkbox class="example-margin" [(ngModel)]="enableCompleteOrder">Complete Order</mat-checkbox>
+      </div>
+    </div>
+  </div>
+
+  {{data ? data.question: "Are you sure to delete"}}
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close({value: true, options: {enableCompleteOrder: enableCompleteOrder}})">{{data ? data.yes: "Yes"}}</button>
+  <button mat-button (click)="dialogRef.close({value: false, options: {enableCompleteOrder: enableCompleteOrder}})">{{data ? data.no: "No"}}</button>
+</div>

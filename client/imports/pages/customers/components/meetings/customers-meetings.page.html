@@ -1,0 +1,141 @@
+<mat-card>
+  <div fxLayout="row" [ngClass]="{filterContainer: !Device.isPhone()}" fxLayoutAlign="end end">
+    <div fxFlex>
+      <mat-button-toggle-group style="float: right;" value="{{activeToggle}}">
+        <mat-button-toggle value="list" (click)="list('list')">
+          List
+        </mat-button-toggle>
+        <mat-button-toggle value="day" (click)="onSelect('day')">
+          Day
+        </mat-button-toggle>
+        <mat-button-toggle value="week" (click)="onSelect('week')">
+          Week
+        </mat-button-toggle>
+        <mat-button-toggle value="month" (click)="onSelect('month')" selected>
+          Month
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <filterBox-component fxFlex='100' (filter)="getFilterConditions($event)"
+                         [lookupName]="'customerMeetings'"></filterBox-component>
+  </div>
+
+  <div *ngIf='!hideList'>
+    <system-lookup [lookupName]="'customerMeetings'" [documentId]="documentId"
+                   (onSelected)="handleEvent('Clicked', $event.value)"
+                   [(data)]="data"
+                   (onLastAggregate)="getAggregate($event)"
+                   [(filterConditions)]="filterConditions"></system-lookup>
+  </div>
+  <div class="wrapper" *ngIf="hideList">
+    <div class="headerParent">
+      <h2 class="wrapperHeader titleBar">
+        <i class="fa fa-caret-left" aria-hidden="true"
+           mwlCalendarPreviousView
+           [view]="view"
+           [(viewDate)]="viewDate"
+           (click)="arrowFunction()"></i>
+        {{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}
+        <i class="fa fa-caret-right" aria-hidden="true"
+           mwlCalendarNextView
+           [view]="view"
+           [(viewDate)]="viewDate"
+           (click)="arrowFunction()"></i>
+      </h2>
+    </div>
+
+    <ng-template #customCellTemplate let-day="day">
+      <div class="cal-cell-top" (click)="selectedUser = 'noUserSelected'; selectedPerson = noUserSelected; testingBadges(day, {}, {})">
+        <span class="cal-day-number">{{day.date | calendarDate: 'monthViewDayNumber':locale }}</span>
+      </div>
+      <!-- indvidual -->
+      <!-- <div *ngIf='!viewAll'>
+              <div *ngFor="let event of  day.events | groupBy:'status'" class='individual' [style.backgroundColor]="event.value[0].color.primary"
+                  style="margin-top: 2px;" (click)="selectedUser = event.key; testingBadges(day, dayEvents, event)" [ngStyle.sm]="{'font-size':'12px'}" [ngStyle.md]="{'font-size':'12px'}">
+                  {{ event.value.length }} {{event.key | titlecase}}
+              </div>
+            </div> -->
+      <div *ngIf='!viewAll'>
+        <div *ngFor="let event of  day.events" class='individual' [style.backgroundColor]="event.color.primary" style="border-radius: 30px; margin-top: 2px;">
+          <small style="margin: 5px" (click)="selectedUser = 'noUserSelected'; testingBadges(day, dayEvents, event)">
+            {{ event.calendarViewBadge }}
+          </small>
+        </div>
+      </div>
+      <!-- allMeetings -->
+      <div *ngIf='viewAll'>
+        <div *ngFor="let event of  day.events| groupBy:'user'" [style.backgroundColor]="event.value[0].personalColor"
+             class="viewAll"
+             (click)="selectedUser = event.key; testingBadges(day, dayEvents, event)">
+          {{event.value[0].initials}} {{ event.value.length }}
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+        #openDayEventsTemplate
+        let-events="events"
+        let-eventClicked="eventClicked">
+      <!-- All -->
+      <!-- <span *ngIf='!dropdownLoading'> -->
+        <div *ngIf="selectedUser !== 'noUserSelected'"
+             style="text-decoration: underline; margin-bottom: 5px;">{{selectedUser | titlecase}}</div>
+        <div
+            *ngFor="let event of events"
+            [hidden]="(event.user !== selectedUser && selectedUser !== 'noUserSelected') && (event.status !== selectedUser && selectedUser !== 'noUserSelected')">
+            <span
+                class="cal-event"
+                [style.backgroundColor]="event.color.primary">
+            </span>
+          <span style="cursor: pointer;"
+                (mwlClick)="eventClicked.emit({event: event})">
+            {{event.dropDownTemplateTitle}}
+          </span>
+          <mwl-calendar-event-actions [event]="event"></mwl-calendar-event-actions>
+        </div>
+      <!-- </span> -->
+      <!-- <div *ngIf='dropdownLoading'> -->
+        <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+      <!-- </div> -->
+    </ng-template>
+
+    <div *ngIf="isDataReady" [ngSwitch]="view">
+      <mwl-calendar-month-view
+          *ngSwitchCase="'month'"
+          [viewDate]="viewDate"
+          [events]="events"
+          [excludeDays]="excludeDays"
+          [activeDayIsOpen]="activeDayIsOpen"
+          [refresh]="refresh"
+          (dayClicked)="dayClicked($event.day)"
+          (eventClicked)="handleEvent('Clicked', $event.event)"
+          [cellTemplate]="customCellTemplate"
+          [openDayEventsTemplate]="openDayEventsTemplate">
+      </mwl-calendar-month-view>
+      <div *ngSwitchCase="'week'">
+        <calendar
+            [returnedEvents]="events"
+            [viewDate]="viewDate"
+            [viewAll]="viewAll"
+        ></calendar>
+      </div>
+
+      <mwl-calendar-day-view
+          *ngSwitchCase="'day'"
+          [viewDate]="viewDate"
+          [events]="events"
+          [refresh]="refresh"
+          [dayStartHour]="8"
+          [dayEndHour]="18"
+          (eventClicked)="handleEvent('Clicked', $event.event)">
+      </mwl-calendar-day-view>
+    </div>
+  </div>
+</mat-card>
+
+<mat-card *ngIf="hideList && !isDataReady">
+  <mat-spinner class="app-spinner"></mat-spinner>
+</mat-card>

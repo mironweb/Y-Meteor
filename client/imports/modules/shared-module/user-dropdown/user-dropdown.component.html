@@ -1,0 +1,20 @@
+<div *ngIf="user">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>person</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" >
+    <button mat-menu-item disabled>
+      <!--<mat-icon>voicemail</mat-icon>-->
+      <span> Hello, {{user.profile.firstName }} {{user.profile.lastName}}</span>
+    </button>
+
+    <button mat-menu-item routerLink="/account/settings">
+      <!--<mat-icon>dialpad</mat-icon>-->
+      <span>Settings</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <!--<mat-icon>notifications_off</mat-icon>-->
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</div>

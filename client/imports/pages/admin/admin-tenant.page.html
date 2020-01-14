@@ -1,0 +1,53 @@
+<mat-card class="box">
+  <h2>
+    {{tenant.name}}
+    <a (click)="removeTenant()" style="cursor: pointer">
+      <i class="material-icons">delete</i>
+    </a>
+  </h2>
+
+  <section>
+    <mat-tab-group>
+      <mat-tab label="Tenant Info">
+        <div>
+          <mat-form-field>
+            <input matInput [(ngModel)]="tenant.name" name="name" type="text" placeholder="Name" (blur)="onBlurMethod($event.target)"
+                   required #spy #nameLookup="ngModel">
+          </mat-form-field>
+          <div [hidden]="nameLookup.valid || nameLookup.pristine" [ngStyle]="{'color': 'red'}">
+            Name is required
+          </div>
+          <br>
+
+          <mat-form-field>
+            <input matInput [(ngModel)]="tenant.logo" name="logo" type="text" placeholder="Logo" (blur)="onBlurMethod($event.target)"
+                   #labelLookup="ngModel">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <input matInput [(ngModel)]="tenant.scheme" name="scheme" type="text" placeholder="Scheme" (blur)="onBlurMethod($event.target)"
+                   #labelLookup="ngModel">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [(ngModel)]="moduleNames" name="modules" type="text" placeholder="Modules" #labelLookup="ngModel" readonly>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [(ngModel)]="tenant.city" name="city" type="text" placeholder="City" (blur)="onBlurMethod($event.target)"
+                   #labelLookup="ngModel">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [(ngModel)]="tenant.address1" name="address1" type="text" placeholder="Address1" (blur)="onBlurMethod($event.target)"
+                   #labelLookup="ngModel">
+          </mat-form-field>
+        </div>
+
+        <br>
+      </mat-tab>
+      <!-- <mat-tab label="Email">
+      </mat-tab> -->
+    </mat-tab-group>
+
+    <br>
+    <!--<a mat-raised-button color="warn" *ngIf="developer || !default" (click)="deleteLookup()">Delete</a>-->
+  </section>
+</mat-card>

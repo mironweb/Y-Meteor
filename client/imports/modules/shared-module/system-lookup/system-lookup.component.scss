@@ -1,0 +1,290 @@
+.searchBarInput {
+  width: 50%;
+}
+
+.datatable-body-cell-label {
+  display: none;
+}
+
+.example-header {
+  padding: 10px;
+}
+
+mat-header-cell {
+  margin-right: 10px;
+}
+
+mat-cell {
+  margin-right: 10px;
+}
+mat-row:hover {
+  background: rgba(228, 232, 237, 0.5);
+}
+.numberTmplCell {
+  background-color: #f3f3f3;
+  color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #cbd4df;
+  border-color: transparent;
+  padding: 3px 10px;
+  &:hover {
+    background-color: #dadada;
+  }
+}
+
+.numberTmplHeader {
+  color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #cbd4df;
+  border-color: transparent;
+  padding: 3px 10px;
+  margin: 5px;
+  width: 100%;
+  &:hover {
+    background-color: #abbacc;
+  }
+}
+
+.numberTmplCellNoHover {
+  background-color: #f3f3f3;
+  color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #cbd4df;
+  border-color: transparent;
+  padding: 3px 10px;
+}
+
+.highlighted {
+  background: #cbd4df;
+}
+
+.cellHighlighted {
+  background: #3f51b5;
+  color: white;
+}
+
+.cellHighlightedRed {
+  background: red;
+  color: white;
+}
+
+.textColorGreen {
+  color: green;
+}
+.textColorRed {
+  color: red;
+}
+
+
+// chip
+
+.filter-name {
+  padding-right: 30px;
+  white-space: nowrap;
+}
+
+.filter-icon {
+  position: relative;
+  right: 20px;
+  top: -11px;
+}
+
+.filter-remove {
+  position: absolute;
+}
+
+.expansion-panel__content[_ngcontent-c24] {
+  margin-left: 0 !important;
+}
+
+.loadingData {
+  display: none;
+}
+.newHighlight {
+  background: green;
+  color: white;
+}
+
+.isChanged {
+  background-color: yellowgreen;
+}
+
+.mobile-label {
+  display: none !important;
+}
+
+@media(max-width: 600px) {
+  .example-container {
+    padding-top: 15px;
+  }
+  .mobile-label {
+    display: inline-block !important;
+    color: #333333;
+    font-weight: bold;
+  }
+  .search-lookup,
+  .mat-header-row {
+    display: none !important;
+  }
+  .mat-row {
+    display: block !important;
+    padding: 8px 12px;
+    height: auto;
+    border-bottom: 1px solid #999999;
+  }
+  .mat-cell {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.greenBackground {
+  // background: #77dd77;
+  background: linear-gradient(90deg, #77dd77 12px, transparent 0%);
+  //&:hover {
+  //  background: linear-gradient(90deg, #77dd77 12px, rgba(241, 252, 241, 0.5) 0%);
+  //}
+}
+
+.yellowBackground {
+  // background: #fdfd96;
+  background: linear-gradient(90deg, #fdfd96 12px, transparent 0%);
+  &:hover {
+    background: linear-gradient(90deg, #fdfd96 12px, rgba(255, 255, 233, 0.5) 0%);
+  }
+}
+
+.redBackground {
+  // background: #ff6961;
+  background: linear-gradient(90deg, #ff6961 12px, transparent 0%);
+  &:hover {
+    background: linear-gradient(90deg, #ff6961 12px, rgba(255, 234, 233, 0.5) 0%);
+  }
+}
+
+.mat-header-cell {
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+}
+
+.button-row button,
+.button-row a {
+  margin-right: 8px;
+}
+
+mat-cell {
+  min-height: auto;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  //background: #f5f5f5;
+  opacity: 0.5;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+//.example-element-row td {
+//  border-bottom-width: 0;
+//}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  //border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+table tr {
+  border-bottom: 1px solid rgba(0,0,0,.12);
+}
+
+.highlightRow {
+  background: #FFFF00;
+}
+
+.cursor_pointer {
+  cursor: pointer
+}
+
+.hoverAction:hover {
+  color: red;
+  text-decoration: underline
+}
+
+
+.example-container {
+  position: relative;
+  //height: 100%;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  height: 100%;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-table-sticky {
+  top: 100px !important;
+}
+.expandCell {
+  width: 3000px;
+}

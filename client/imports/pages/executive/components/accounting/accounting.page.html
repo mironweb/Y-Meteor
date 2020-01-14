@@ -1,0 +1,42 @@
+<mat-card>
+  <div [hidden]='view !== "dashboard"'>
+  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+    <div fxFlex="49.75" fxLayout="column" fxLayoutAlign="space-between stretch">
+      <executive-agedInvoices style='margin-bottom: 10px;' fxFlex [(data)]="data" (lookupView)='lookupView($event)'></executive-agedInvoices>
+      <executive-grossMargin #paymentApprovals fxFlex [(data)]="data" (lookupView)='lookupView($event)'></executive-grossMargin>
+    </div>
+    <executive-bankingBalance fxFlex="49.75" [(data)]="data"></executive-bankingBalance>
+  </div>
+  <br>
+  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+    <executive-paymentApprovals #paymentApprovals fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-paymentApprovals>
+    <executive-borrowingBase fxFlex="49.75" [(data)]="data"></executive-borrowingBase>
+  </div>
+  </div>
+
+  <div [hidden]='view === "dashboard"'>
+    <button mat-icon-button style='float: right;' (click)="clearUrlParams()">
+      <mat-icon class="md-24">close</mat-icon>
+    </button>
+    <executive-lookup #lookup [(data)]="lookupData" (lookupDataChange)='lookupDataChange($event)'></executive-lookup>
+
+    <div class="button-row" fxLayout="row" style="text-align: left" *ngIf='view == "paymentReviewLookup"'>
+      <button mat-raised-button color="primary" (click)="paymentApprovals.finishReview(lookup.getDirtyRows()); clearUrlParams();">Finish Review</button>
+      <button mat-raised-button color="warn" (click)="lookup.checkAll(true)">Check All</button>
+      <button mat-raised-button color="warn" (click)="lookup.checkAll(false)">Uncheck All</button>
+    </div>
+    
+    <div class="button-row" fxLayout="row" style="text-align: left" *ngIf='view == "paymentCodingLookup"'>
+      <button *hasPermission="['uploadPaymentApprovals']" mat-raised-button color="primary"
+        (click)="paymentApprovals.finishCodes(lookup.getDirtyRows(), 'coded');">
+        Save Codes
+      </button>
+      <button *hasPermission="['preApprovePaymentApprovals']" mat-raised-button
+        color="primary" (click)="paymentApprovals.finishCodes(lookup.getDirtyRows(), 'preapproved'); clearUrlParams();">
+        Pre-Approve
+      </button>
+    </div>
+
+
+  </div>
+</mat-card>

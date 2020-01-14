@@ -1,0 +1,61 @@
+<!-- <page-header></page-header> -->
+<mat-card>
+    <div class="fontSize floatLeft" [ngStyle.xs]="{'width':'100%'}" [ngStyle.sm]="{'width':'100%'}">
+        <strong>Customer: </strong> <span class="floatRight"> {{order.customerName}}</span>
+        <br>
+        <strong><span class="floatLeft">Order Total:</span></strong>
+        <span class="floatRight" *ngIf="order.orderTotal"> {{order.orderTotal.toString() | currency:'USD':'symbol':'1.2-2'}}</span>
+    </div>
+    <div class="fontSize floatRight" [ngStyle.xs]="{'float':'left', 'width':'100%'}" [ngStyle.sm]="{'float':'left', 'width':'100%'}">
+        <strong>Order Number: </strong> <span class="floatRight">{{order.number}}</span>
+        <br>
+        <strong>Order Date: </strong> <span class="floatRight">{{order.date | date:'fullDate'}}</span>
+        <br>
+        <strong>Type: </strong> <span class="floatRight">{{order.type}}</span>
+        <br>
+    </div>
+    <div style="clear: both; margin-bottom: 10px;" class="floatLeft">
+        <strong>Bill To Address:</strong>
+        <br>
+        <span>{{order.billToName}}</span>
+        <br>
+        <span>{{order.billToAddress1}}</span>
+        <br>
+        <span *ngIf="order.billToAddress2">{{order.billToAddress2}}</span>
+        <br *ngIf="order.billToAddress2">
+        <span *ngIf="order.billToAddress3">{{order.billToAddress3}}</span>
+        <br *ngIf="order.billToAddress3">
+        <span>{{order.billToCity}}, {{order.billToState}}</span>
+        <br>
+        <span>{{order.billToZipCode}}</span>
+        <br>
+    </div>
+    <strong> </strong>
+    <div style="clear: both;" class="floatLeft">
+        <strong>Ship To Address:</strong>
+        <br>
+        <span>{{order.shipToName}}</span>
+        <br>
+        <span>{{order.shipToAddress1}}</span>
+        <br>
+        <span *ngIf="order.shipToAddress2">{{order.shipToAddress2}}</span>
+        <br *ngIf="order.shipToAddress3">
+        <span *ngIf="order.shipToAddress2">{{order.shipToAddress3}}</span>
+        <br *ngIf="order.shipToAddress3">
+        <span>{{order.shipToCity}}, {{order.shipToState}}</span>
+        <br>
+        <span>{{order.shipToZipCode}}</span>
+        <br>
+    </div>
+    <div style="clear: both;">
+        <br>
+        <!-- <button mat-raised-button type="button" (click)="pdf()">PDF</button> -->
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <filterBox-component fxFlex='100' (filter)="getFilterConditions($event)" [lookupName]="'customerOrder'"></filterBox-component>
+        </div>
+        <section id="customerOrder">
+            <system-lookup [lookupName]="'customerOrder'" [isModal]="false" (onSelected)="select($event)" [documentId]="documentId"
+                [(filterConditions)]="filterConditions"></system-lookup>
+        </section>
+    </div>
+</mat-card>

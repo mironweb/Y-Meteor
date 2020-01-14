@@ -1,0 +1,76 @@
+<!-- <page-header></page-header> -->
+<mat-card>
+    <div class="fontSize floatLeft" [ngStyle.xs]="{'width':'100%'}" [ngStyle.sm]="{'width':'100%'}">
+        <span><strong>Customer: </strong> <span class="floatRight"> {{invoice.customerName}}</span></span>
+        <br>
+        <span><strong>Invoice Number: </strong><span class="floatRight">{{invoice.number}}</span></span>
+        <br>
+        <span><strong>Invoice Date: </strong><span class="floatRight">{{invoice.date | date:'fullDate'}}</span></span>
+        <br>
+        <span><strong>Type: </strong><span class="floatRight">{{invoice.type}}</span></span>
+        <br>
+        <span *ngIf="invoice.freightCredit && invoice.freightCredit.greaterThan(0)">
+            <strong>Freight Terms: </strong>
+            <span class="floatRight">{{invoice.freightCredit.toString() | currency:'USD':'symbol':'1.2-2'}}</span>
+        </span>
+        <br>
+    </div>
+    <div class="fontSize floatRight" [ngStyle.xs]="{'float':'left', 'width':'100%'}" [ngStyle.sm]="{'float':'left', 'width':'100%'}">
+        <strong>Nontaxable: </strong>
+        <span class="floatRight" *ngIf="invoice.invoiceTotal"> {{invoice.invoiceTotal.toString() | currency:'USD':'symbol':'1.2-2'}}</span>
+        <br>
+        <strong>Freight: </strong>
+        <span class="floatRight" *ngIf="invoice.freight"> {{invoice.freight.toString() | currency:'USD':'symbol':'1.2-2'}}</span>
+        <br>
+        <strong>Discount: </strong>
+        <span class="floatRight" *ngIf="invoice.discount"> {{invoice.discount.toString() | currency:'USD':'symbol':'1.2-2'}}</span>
+        <br>
+        <hr>
+        <strong>Grand Total: </strong>
+        <span class="floatRight" *ngIf="invoice.invoiceTotal"> {{invoice.invoiceTotal.toString() | currency:'USD':'symbol':'1.2-2'}}</span>
+        <br>
+    </div>
+    <div style="clear: both; margin-bottom: 10px;" class="floatLeft">
+        <strong>Bill To Address:</strong>
+        <br>
+        <span>{{invoice.billToName}}</span>
+        <br>
+        <span>{{invoice.billToAddress1}}</span>
+        <br>
+        <span *ngIf="invoice.billToAddress2">{{invoice.billToAddress2}}</span>
+        <br *ngIf="invoice.billToAddress2">
+        <span *ngIf="invoice.billToAddress3">{{invoice.billToAddress3}}</span>
+        <br *ngIf="invoice.billToAddress3">
+        <span>{{invoice.billToCity}}, {{invoice.billToState}}</span>
+        <br>
+        <span>{{invoice.billToZipCode}}</span>
+        <br>
+    </div>
+    <strong> </strong>
+    <div style="clear: both;" class="floatLeft">
+        <strong>Ship To Address:</strong>
+        <br>
+        <span>{{invoice.shipToName}}</span>
+        <br>
+        <span>{{invoice.shipToAddress1}}</span>
+        <br>
+        <span *ngIf="invoice.shipToAddress2">{{invoice.shipToAddress2}}</span>
+        <br *ngIf="invoice.shipToAddress3">
+        <span *ngIf="invoice.shipToAddress2">{{invoice.shipToAddress3}}</span>
+        <br *ngIf="invoice.shipToAddress3">
+        <span>{{invoice.shipToCity}}, {{invoice.shipToState}}</span>
+        <br>
+        <span>{{invoice.shipToZipCode}}</span>
+        <br>
+    </div>
+    <div style="clear: both;">
+        <br>      
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <filterBox-component fxFlex='100' (filter)="getFilterConditions($event)" [lookupName]="'customerInvoice'"></filterBox-component>
+        </div>
+        <section id="customerInvoice">
+            <system-lookup [lookupName]="'customerInvoice'" [isModal]="false" (onSelected)="select($event)" [documentId]="documentId"
+                [(filterConditions)]="filterConditions"></system-lookup>
+        </section>
+    </div>
+</mat-card>

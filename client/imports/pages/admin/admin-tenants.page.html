@@ -1,0 +1,56 @@
+<mat-card class="box">
+  <!-- <h2>System Tenants <i class="material-icons" style="cursor:pointer;"(click)="openDialog()">list</i></h2> -->
+  <div>
+    <!--<button mat-raised-button color="primary" (click)="openDialog()">Filter</button>-->
+    <button mat-raised-button color="primary" (click)="addButton()">Add Tenants</button>
+  </div>
+  <div>
+    <filterBox-component [lookupName]="'adminTenants'"></filterBox-component>
+  </div>
+
+  <div [hidden]="hideTable">
+    <system-lookup [lookupName]="'adminTenants'" (onSelected)="onSelect($event)" [(data)]="data"></system-lookup>
+  </div>
+
+  <div [hidden]="hideAddForm">
+    <form (ngSubmit)="addTenant(); tenantForm.reset()" #tenantForm="ngForm">
+      <mat-form-field class="inputContainer">
+        <input matInput id="tenantNameInput" name="name" type="text" placeholder="Name" [(ngModel)]="tenantNameInput" required #spy #name="ngModel">
+      </mat-form-field>
+      <div [hidden]="name.valid || name.pristine" [ngStyle]="{'color': 'red'}">
+        Name is required
+      </div>
+      <br>
+      <mat-form-field class="inputContainer">
+        <input matInput id="tenantAddress1Input" name="address1" type="text" placeholder="Address Line 1" [(ngModel)]="tenantAddress1Input" required #spy #address1="ngModel">
+      </mat-form-field>
+      <div [hidden]="address1.valid || address1.pristine" [ngStyle]="{'color': 'red'}">
+        Address is required
+      </div>
+      <br>
+      <mat-form-field class="inputContainer">
+        <input matInput id="tenantAddress2Input" name="address2" type="text" placeholder="Address Line 2" [(ngModel)]="tenantAddress2Input" #spy #address2="ngModel">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="inputContainer">
+        <input matInput id="cityInput" name="city" type="text" placeholder="City" [(ngModel)]="cityInput" required #spy #city="ngModel">
+      </mat-form-field>
+      <div [hidden]="city.valid || city.pristine" [ngStyle]="{'color': 'red'}">
+        City is required
+      </div>
+      <br>
+      <mat-form-field class="inputContainer">
+        <input matInput id="zipCodeInput" name="zipCode" type="text" placeholder="Zip Code" maxlength="5" [(ngModel)]="zipCodeInput" (keypress)="checkIfNumber($event)" required #spy #zip="ngModel">
+      </mat-form-field>
+      <div [hidden]="zip.valid || zip.pristine" [ngStyle]="{'color': 'red'}">
+        Zip Code is required
+      </div>
+      <br>
+      <mat-select placeholder="State" [(ngModel)]="stateInput" floatPlaceholder="never" [ngModelOptions]="{standalone: true}">
+        <mat-option *ngFor="let state of states" (click)="stateSelection()" [value]="state.name">{{ state.name }}</mat-option>
+      </mat-select>
+      <br>
+      <button mat-raised-button [disabled]="!tenantForm.form.valid || stateError" color="warn" type="submit">Add Tenant</button>
+    </form>
+  </div>
+</mat-card>

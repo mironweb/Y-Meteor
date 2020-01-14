@@ -1,0 +1,18 @@
+{
+  "public": {
+    "url": "https://test.yibas.com/",
+    "isProduction": true,
+    "isTestWebsite": true,
+    "timeZone": "America/Chicago"
+  },
+  "private": {
+    "deploy": "DEPLOY_HOSTNAME=galaxy.meteor.com meteor deploy test.yibas.com --settings settings_development.json",
+    "run": "MONGO_URL=mongodb://deploy:Ruo9ogd8DDjstrgwc@ds057976-a0.mlab.com:57976,ds057976-a1.mlab.com:57976/development?replicaSet=rs-ds057976 meteor -s settings_development.json",
+    "runLive": "MONGO_URL=mongodb://deploy:GdqOO9sRUl6VO6pDv@ds057976-a0.mlab.com:57976,ds057976-a1.mlab.com:57976/development?replicaSet=rs-ds057976 meteor -s settings_development.json"
+  },
+  "galaxy.meteor.com": {
+    "env": {
+      "MONGO_URL": "mongodb://deploy:Ruo9ogd8DDjstrgwc@ds057976-a0.mlab.com:57976,ds057976-a1.mlab.com:57976/development?replicaSet=rs-ds057976"
+    }
+  }
+}

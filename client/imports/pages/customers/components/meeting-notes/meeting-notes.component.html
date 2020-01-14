@@ -1,0 +1,153 @@
+<h2 style='margin-top: 0px; margin-right: 10px; float: left;'>Notes</h2>
+<mat-slide-toggle [(checked)]="isSlideChecked" (change)="onSlideChange($event)" labelPosition="before"
+                  color="primary">
+  Past Notes
+</mat-slide-toggle>
+<span *ngIf='clearButton' (click)='active(false)' style='float: right; cursor: pointer;'>
+    <button color="white" mat-mini-fab>
+      <mat-icon>clear</mat-icon>
+    </button>
+</span>
+<span id='noteTabGroup'>
+  <mat-tab-group style='clear: both;'>
+    <mat-tab *ngFor="let note of notes; let i = index;"
+             [label]="(createMeetingNotes[note.identifier]?.length > 0 || meetingData[note.identifier]?.length > 0 ||  branchNotes[note.identifier]?.length > 0) ? note.label + '*' : note.label">
+      <span *ngIf="showPreviousNotes">
+        <!-- <mat-card style='margin-bottom: 5px'>
+        </mat-card> -->
+        <mat-card *ngFor="let notes of branchNotes[note.identifier]"
+          style='margin: 3px 3px 3px 3px; padding: 12px 12px 12px 12px;' class="previousNotes">
+          <span *ngFor="let key of getKeys(notes);">
+            <span *ngIf="['_id', 'userInfo', 'meetingDate'].indexOf(key) === -1">
+              <strong>{{key}}:</strong> {{notes[key]}}
+              <br>
+            </span>
+          </span>
+          <mat-card-subtitle style="margin-top: 3px;">
+            {{notes.userInfo}}, {{notes.meetingDate}}
+          </mat-card-subtitle>
+        </mat-card>
+      </span>
+      <!--     padding: 5px 5px 5px 5px;
+    background-color: rgb((207,216,220));
+    border-radius: 5px; -->
+  
+      <!-- <span *ngFor="let noteObj of meetingData[note.identifier]; let x = index"> -->
+      <mat-chip-list *ngIf='note.data.inputs'>
+        <span *ngIf='meetingId' class="chip">
+          <mat-chip style='float: left;' *ngFor="let noteChip of meetingData[note.identifier]; let c = index;"
+                    selected="{{chipNumbers[note.identifier] == c ? true : false}}" fxLayout="row wrap" class="filter-tag">
+            <div fxFlex="" class="filter-name cursor-pointer" (click)='updateChipNumber(c, note.identifier)'>
+              <span *ngIf='!noteChip[note.data.chipIdentifier]'>Note {{c + 1}}</span>
+              <span *ngIf='noteChip[note.data.chipIdentifier]'>{{noteChip[note.data.chipIdentifier]}}</span>
+            </div>
+            <div class="float-right filter-icon cursor-pointer" fxFlex="">
+              <div fxFlex="none" class="filter-remove" (click)='removeNoteInstance(c, note.identifier)'>
+                <mat-icon>clear</mat-icon>
+              </div>
+            </div>
+          </mat-chip>
+          <mat-chip style='float: left;' *ngIf="meetingData[note.identifier]?.length > 0" style='float: left;' selected="false" fxLayout="row wrap"
+                    class="filter-tag" (click)='addNoteInstance(note.identifier)'>
+            <div class="float-right filter-icon cursor-pointer" fxFlex="">
+              <div fxFlex="none" class="filter-remove">
+                <mat-icon>add</mat-icon>
+              </div>
+            </div>
+          </mat-chip>
+  
+          <!-- <span *ngIf='note.data.chipIdentifier'>
+            {{note.data.chipIdentifier | json}}
+          </span> -->
+        </span>
+        <span *ngIf='!meetingId' class="chip">
+          <span *ngIf="createMeetingNotes[note.identifier]?.length > 0">
+            <mat-chip style='float: left;' *ngFor="let noteChip of createMeetingNotes[note.identifier]; let c = index;"
+                      selected="{{chipNumbers[note.identifier] == c ? true : false}}" fxLayout="row wrap" class="filter-tag">
+              <div fxFlex="" class="filter-name cursor-pointer" (click)='updateChipNumber(c, note.identifier)'>
+                <span *ngIf='!noteChip[note.data.chipIdentifier]'>Note {{c + 1}}</span>
+                <span *ngIf='noteChip[note.data.chipIdentifier]'>{{noteChip[note.data.chipIdentifier]}}</span>
+              </div>
+              <div class="float-right filter-icon cursor-pointer" fxFlex="">
+                <div fxFlex="none" class="filter-remove" (click)='removeNoteInstance(c, note.identifier)'>
+                  <mat-icon>clear</mat-icon>
+                </div>
+              </div>
+            </mat-chip>
+          </span>
+          <mat-chip style='float: left;' *ngIf="createMeetingNotes[note.identifier]?.length > 0" style='float: left;' selected="false" fxLayout="row wrap" class="filter-tag"
+                    (click)='addNoteInstance(note.identifier)'>
+              <div class="float-right filter-icon cursor-pointer" fxFlex="">
+                <div fxFlex="none" class="filter-remove">
+                  <mat-icon>add</mat-icon>
+                </div>
+              </div>
+          </mat-chip>
+        </span>
+      </mat-chip-list>
+  
+      <div *ngIf='note.data.inputs'>
+        <span *ngFor="let input of note.data.inputs; let j = index" [ngSwitch]="input.type">
+            <!-- {{input | json}} -->
+          <mat-form-field *ngSwitchCase="'input'" class='noteInputField'>
+            <input matInput
+                   name="{{input.inputName}}"
+                   value='{{meetingData[note.identifier] && meetingData[note.identifier].length > 0 ? meetingData[note.identifier][chipNumbers[note.identifier]][input.inputName] : null}}'
+                   placeholder="{{input.placeHolder}}"
+                   (blur)="noteSpecificInput(
+                meetingData[note.identifier] ? meetingData[note.identifier][chipNumbers[note.identifier]] : '',
+                note.identifier,
+                input.inputName,
+                $event.target.value,
+                chipNumbers[note.identifier],
+                input)">
+          </mat-form-field>
+          <mat-form-field *ngSwitchCase="'select'" class='noteInputField'>
+            <mat-select placeholder="{{input.placeHolder}}"
+                        value="{{meetingData[note.identifier] && meetingData[note.identifier].length > 0 ? meetingData[note.identifier][chipNumbers[note.identifier]][input.inputName] : null}}"
+                        (selectionChange)="noteSpecificInput(
+                meetingData[note.identifier] ? meetingData[note.identifier][chipNumbers[note.identifier]] : '',
+                note.identifier,
+                input.inputName,
+                $event.value,
+                chipNumbers[note.identifier],
+                input)">
+              <mat-option *ngFor="let select of input.selectValue; let k = index" [value]="select.value">
+                {{select.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngSwitchCase="'autoComplete'" class='noteInputField'>
+            <input type="text" placeholder="{{input.placeHolder}}" matInput [matAutocomplete]="auto" value='{{meetingData[note.identifier] && meetingData[note.identifier].length > 0 ? meetingData[note.identifier][chipNumbers[note.identifier]][input.inputName]
+            : null}}'
+            (blur)="noteSpecificInput( meetingData[note.identifier] ? meetingData[note.identifier][chipNumbers[note.identifier]]
+            : '', note.identifier, input.inputName, $event.target.value, chipNumbers[note.identifier], input)">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="noteSpecificInput( meetingData[note.identifier] ? meetingData[note.identifier][chipNumbers[note.identifier]]
+            : '', note.identifier, input.inputName, $event.option.value, chipNumbers[note.identifier], input)">
+              <mat-option *ngFor="let select of input.selectValue; let k = index" [value]="select.value">
+                {{select.viewValue}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <br>
+        </span>
+      </div>
+  
+  
+      <mat-form-field class="textarea">
+        <textarea placeholder="Notes" matInput resizeToFitContent rows="10" [attr.maxlength]="note.data.inputs ? 500 : null" #textarea name="{{note.identifier}}"
+                  (click)='active(true)'
+                  value="{{meetingData[note.identifier] ? meetingData[note.identifier][chipNumbers[note.identifier]]?.notes : ''}}"
+                  (blur)="onBlurMethod(
+            meetingData[note.identifier] && meetingData[note.identifier].length > 0 ? meetingData[note.identifier][chipNumbers[note.identifier]] : '',
+            $event.target.name,
+            $event.target.value,
+            chipNumbers[note.identifier],
+            input)">
+        </textarea>
+        <mat-hint align="end" *ngIf='note.data.inputs'>{{textarea.value.length}} / 500</mat-hint>
+      </mat-form-field>
+      <!-- </span> -->
+    </mat-tab>
+  </mat-tab-group>
+</span>

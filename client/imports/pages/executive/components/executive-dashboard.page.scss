@@ -1,0 +1,134 @@
+.alignRight {
+    text-align: right;
+}
+.alignCenter {
+    text-align: center;
+}
+.mat-fab.mat-accent {
+  background-color: white;
+  color: black;
+}
+.pointer {
+  cursor: pointer;
+}
+
+.cardIcons {
+  float: right;
+  cursor: pointer;
+}
+
+ul.leaders {
+margin-top: 0px;
+max-width: 37em;
+padding: 0;
+overflow-x: hidden;
+list-style: none;
+  
+  li:before {
+    float: left;
+    width: 0;
+    white-space: nowrap;
+    color: black;
+    content: ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+  }
+    span:first-child {
+    // font-weight: 600;
+    // letter-spacing: 2px;
+    padding-right: 0.33em;
+    background: white;
+  }
+  
+  span + span {
+    float: right;
+    padding-left: 0.33em;
+    background: white;
+  }
+  
+  span + span:before {
+    // content: '$';
+    padding-right: 0.15em;
+  }
+}
+
+.fullHeight {
+  height: calc(100% - 48px);
+}
+
+.updatedAt {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 11px;
+}
+#dashboardHeaderElement{
+  ::ng-deep .mat-form-field-infix{
+    border-top-width: 0px;
+  }
+}
+
+#tables {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#tables td, #tables th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    &.updatedAt {
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+}
+
+#tables tr:nth-child(even){background-color: #f2f2f2;}
+
+#tables tr:hover {background-color: #ddd;}
+
+#tables th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(160, 160, 160);
+    color: white;
+}
+#tables th.alignCenter{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: rgb(160, 160, 160);
+    color: white;
+}
+
+.md-drppicker {
+  .btn {
+    background-color: red !important;
+  }
+}
+
+.material-icons.md-18 {
+  font-size: 18px;
+}
+
+.button-row button,
+.button-row a {
+  margin-right: 8px;
+}
+
+.greenBackground {
+  background: #77dd77;
+}
+
+.yellowBackground {
+  background: #fdfd96;
+}
+
+.redBackground {
+  background: #ff6961;
+}
+
+::ng-deep .header-less-tabs.mat-tab-group .mat-tab-header {
+  display: none;
+}
+
+::ng-deep .noBoxShadow.mat-button-toggle-group {
+  box-shadow: none;
+}

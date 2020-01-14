@@ -1,0 +1,118 @@
+<!-- <PageHeader></PageHeader> -->
+<div class="subHeader cursor-pointer">
+  <h2><md-icon [routerLink]="['/customers/quotes']">chevron_left</md-icon> Create Customer Quote</h2>
+</div>
+<md-card [ngClass]="{
+  'hidden': !state.isMainContentShown
+}">
+  <form [formGroup]="customerQuote" #addQuoteForm="ngForm">
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between stretch"
+           class="selectorForm">
+        <div fxFlex="48" fxFlex.xs="100" class="select-containter" (click)="showCustomersList()">
+          <label>CUSTOMER</label>
+          <md-input-container>
+            <input mdInput formControlName="customerDisplay" placeholder="Customer" readonly>
+          </md-input-container>
+        </div>
+        <div fxFlex="4">
+        </div>
+        <div fxFlex="48" class="select-containter" (click)="showCategoriesList()">
+          <label>PRODUCT LINE</label>
+          <md-input-container>
+            <input mdInput formControlName="categoryDisplay" placeholder="Product Line" readonly>
+          </md-input-container>
+        </div>
+      </div>
+      <br>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="ph-24">
+        <div fxFlex="100" class="select-containter">
+          <label>NOTES</label>
+          <md-input-container>
+            <input mdInput formControlName="notes" placeholder="Notes">
+          </md-input-container>
+        </div>
+      </div>
+      <br>
+    <button [disabled]="disableSubmit" md-raised-button color="primary" type="button" (click)="submitQuote(customerQuote)">Submit Quote</button>
+    <div *ngIf="this.data.customerId && this.data.categoryId">
+      <system-lookup [lookupName]="'createQuote'" (_onMobileClick)="onMobileClick($event)"
+                     (onSelected)="onSelect($event)" [(data)]="data"></system-lookup>
+    </div>
+  </form>
+</md-card>
+
+<md-card class="full-height" *ngIf="state.isCustomersListShown">
+  <button md-raised-button color="primary" type="button" (click)="showMainContent()">Back</button>
+  <br>
+  <!--<filterBox-component lookupName="customers" (modalData)="getModalData(data)"></filterBox-component>-->
+  <system-lookup [isModal]="true" lookupName="customers" (onSelected)="getCustomer($event)"></system-lookup>
+  <br>
+  <button md-raised-button color="primary" type="button" (click)="showMainContent()">Back</button>
+</md-card>
+
+<md-card *ngIf="state.isCategoriesListShown">
+  <button md-raised-button color="primary" type="button" (click)="showMainContent()">Back</button>
+  <br>
+  <system-lookup [isModal]="true" #selectCategory lookupName="selectCategoryOnQuote" (onSelected)="getCategory($event)"></system-lookup>
+  <br>
+  <button md-raised-button color="primary" type="button" (click)="showMainContent()">Back</button>
+</md-card>
+
+
+<md-card *ngIf="state.isSingleDocumentShown">
+  <form [formGroup]="quoteForm" novalidate>
+    <md-form-field class="full-width">
+      <input mdInput placeholder="product" formControlName="product" readonly aria-readonly=""/>
+    </md-form-field>
+    <md-form-field class="full-width">
+      <input mdInput placeholder="description" formControlName="description" readonly aria-readonly=""/>
+    </md-form-field>
+    <md-form-field class="full-width">
+      <input mdInput placeholder="price" formControlName="price" readonly aria-readonly=""/>
+    </md-form-field>
+    <md-form-field class="full-width">
+      <input type="text" [ngClass]="{
+        'greenBackground': state.newQuotePriceTag == 'override'
+}" style="padding: 5px" mdInput
+             (change)="setQuotePrice('override')"
+             placeholder="override" formControlName="override"/>
+    </md-form-field>
+
+    <table>
+      <tr>
+        <td>Level1</td>
+        <td>
+          <button [ngClass]="{
+        'blueBackground': state.quotePriceTag == 'level1',
+                'greenBackground': state.newQuotePriceTag == 'level1'
+
+}" type="button" (click)="setQuotePrice('level1')" md-raised-button>{{quoteForm.controls.level1.value}}</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Level2</td>
+        <td>
+          <button [ngClass]="{
+        'blueBackground': state.quotePriceTag == 'level2',
+                'greenBackground': state.newQuotePriceTag == 'level2'
+
+        }" (click)="setQuotePrice('level2')" type="button" md-raised-button>{{quoteForm.controls.level2.value}}</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Level3</td>
+        <td>
+          <button [ngClass]="{
+        'blueBackground': state.quotePriceTag == 'level3',
+                'greenBackground': state.newQuotePriceTag == 'level3'
+
+        }" (click)="setQuotePrice('level3')" type="button" md-raised-button>{{quoteForm.controls.level3.value}}</button>
+        </td>
+      </tr>
+    </table>
+
+    <button md-raised-button color="primary" type="submit" (click)="saveQuotePrice()">Save</button>
+    <button md-raised-button color="accent" type="button" (click)="showMainContent()">Back</button>
+  </form>
+</md-card>
+

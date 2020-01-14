@@ -1,0 +1,33 @@
+.category-info {
+  padding: 20px;
+}
+
+.mat-tab-label-active {
+  background-color: black;
+}
+.viewAll {
+  border-radius: 30px;
+  color: white;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  margin-bottom: 5px;
+}
+
+.hoverCard {
+  .actions {
+    display: none;
+  }
+  &:hover {
+    .actions {
+      display: initial;
+    }
+  }
+}
+//.noteActions {
+//  display: none;
+//  &:hover {
+//    display: initial;
+//  }
+//}

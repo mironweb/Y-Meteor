@@ -1,0 +1,20 @@
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.valid {
+  border-left: 5px solid #42A948; /* green */
+}
+
+
+.inputContainer {
+  width: 50%
+}
+
+.datatable-checkbox input[type='checkbox'] {
+  height: 20px !important;
+}
+
+mat-form-field {
+  width: 100%;
+}

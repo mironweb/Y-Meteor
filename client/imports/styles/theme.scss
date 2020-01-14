@@ -1,0 +1,61 @@
+//// Define the default theme (same as the example above).
+//$default-primary: mat-palette($mat-deep-orange, 900, 300, 900);
+//$default-accent:  mat-palette($mat-pink, A200, A100, A400);
+//$default-theme:   mat-light-theme($default-primary, $default-accent);
+//
+//
+//// Define an alternate dark theme.
+//$dark-primary: mat-palette($mat-red);
+//$dark-accent:  mat-palette($mat-amber, A200, A100, A400);
+//$dark-warn:    mat-palette($mat-deep-orange);
+//
+//$dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+//
+//
+//// Define a light theme
+//$light-primary: mat-palette($mat-grey, 200, 500, 300);
+//$light-accent: mat-palette($mat-brown, 200);
+//$light-warn: mat-palette($mat-deep-orange, 200);
+//
+//$light-theme: mat-light-theme($light-primary, $light-accent, $light-warn);
+//
+//
+//
+//@mixin components-theme($theme) {
+//  $primary: map-get($theme, primary);
+//
+//
+//  sidenav h3 {
+//    background-color: mat-color($primary);
+//  }
+//
+//  mat-drawer-content {
+//    background-color: white;
+//  }
+//
+//  page-header .pageHeader {
+//    padding: 10px;
+//    color: white;
+//    background-color: mat-color($primary);
+//    h2 {
+//      margin: 0px;
+//    }
+//  }
+//
+//  .mat-form-field-infix {
+//    width: inherit !important;
+//  }
+//
+//
+//  mat-form-field {
+//    width: 100% !important;
+//  }
+//
+//  .titleBar {
+//    background-color: mat-color($primary);
+//  }
+//
+//  fabbutton button {
+//    background-color: mat-color($primary) !important;
+//  }
+//}

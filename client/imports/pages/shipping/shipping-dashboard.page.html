@@ -1,0 +1,51 @@
+<mat-card *ngIf="view === ''">
+    <div class="actions">
+        Scan or Enter <br/>Sales Order
+    </div>
+    <form (ngSubmit)="searchSalesOrder()">
+        <mat-form-field>
+            <input #searchInput matInput
+                name="sales-order-number"
+                placeholder="Sales Order"
+                [(ngModel)]="salesOrderNumber"
+                (keyup)="applyFilter(searchInput.value)"
+                required
+            />
+            <button class="icon"
+                mat-icon-button matSuffix
+                aria-label="Search"
+                (click)="searchSalesOrder()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+        <mat-spinner
+            [diameter]="24"
+            *ngIf="isSearching">
+        </mat-spinner>
+        <input type="submit"/>
+    </form>
+</mat-card>
+
+<mat-card *ngIf="view === 'customerOrders'">
+    <button mat-icon-button style="float: right" (click)="hideCustomerOrders()">
+        <mat-icon class="md-24">close</mat-icon>
+    </button>
+    <mat-tab-group class="single-tab-emphasis" [selectedIndex]="0">
+        <mat-tab label="Review">
+            <system-lookup
+                    lookupName="ordersReviewShipments"
+                    (onSelected)="onSelectCustomerOrder($event)"
+                    [(filterConditions)]="filterConditions">
+            </system-lookup>
+        </mat-tab>
+        <mat-tab label="Pending">
+            <system-lookup
+                    lookupName="ordersPendingShipments"
+                    (onSelected)="onSelectCustomerOrder($event)"
+                    [(filterConditions)]="filterConditions">
+            </system-lookup>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>
+
+<simple-notifications [options]="options"></simple-notifications>

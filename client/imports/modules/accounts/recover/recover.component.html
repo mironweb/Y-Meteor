@@ -1,0 +1,31 @@
+<div id="recover">
+  <h1>Recover your password!</h1>
+
+  <form [formGroup]="recoverForm" (ngSubmit)="recover()">
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        placeholder="Email"
+        required
+      >
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      aria-label="Recover"
+      [disabled]="isLoading"
+    >
+      Recover
+      <mat-spinner [diameter]="24" *ngIf="isLoading"></mat-spinner>
+    </button>
+
+    <a mat-button class="login" routerLink="/login">
+      Back to login
+    </a>
+  </form>
+</div>
+<simple-notifications [options]="options"></simple-notifications>

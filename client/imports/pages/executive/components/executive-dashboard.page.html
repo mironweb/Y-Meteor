@@ -1,0 +1,67 @@
+<!-- <page-header *ngIf="pageHeader" [(pageHeaderInput)]="pageHeader"></page-header> -->
+<!-- <mat-card>
+  <div [hidden]='view !== "dashboard"'>
+    <span *ngIf='componentsLoad.row1'>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+        <div fxFlex="33" fxLayout="column" fxLayoutAlign="space-between stretch">
+          <executive-openorders fxFlex="61" [(data)]="data" (lookupView)='lookupView($event)'></executive-openorders>
+          <executive-borrowingBase fxFlex="37" [(data)]="data"></executive-borrowingBase>
+        </div>
+        <executive-freightreport fxFlex="33" [(data)]="data" (lookupView)='lookupView($event)'></executive-freightreport>
+        <executive-inventory fxFlex="33" [(data)]="data" (lookupView)='lookupView($event)'></executive-inventory>
+      </div>
+      <br>
+    </span>
+    <span *ngIf='componentsLoad.row2'>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+        <executive-monthlySales fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-monthlySales>
+        <executive-yearlySales fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-yearlySales>
+      </div>
+      <br>
+    </span>
+    <span *ngIf='componentsLoad.row3'>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+        <executive-monthlyIncomeStatement fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-monthlyIncomeStatement>
+        <executive-yearlyIncomeStatement fxFlex="49.75" [(data)]="data" (lookupView)='lookupView($event)'></executive-yearlyIncomeStatement>
+      </div>
+      <br>
+    </span>
+    <span *ngIf='componentsLoad.row4'>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+        <executive-bankingBalance fxFlex="33" [(data)]="data"></executive-bankingBalance>
+        <executive-customerQuoteReport fxFlex="33" [(data)]="data" (lookupView)='lookupView($event)'></executive-customerQuoteReport>
+        <executive-inventoryVariance fxFlex="33" [(data)]="data" (lookupView)='lookupView($event)'></executive-inventoryVariance>
+      </div>
+      <br>
+    </span>
+    <span *ngIf='componentsLoad.row5'>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+        <executive-marsInventory #marsInventory fxFlex="100" [(data)]="data" (lookupView)='lookupView($event)'></executive-marsInventory>
+      </div>
+      <br>
+    </span>
+    <span *ngIf='componentsLoad.row6'>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+        <executive-agedInvoices fxFlex="33" [(data)]="data" (lookupView)='lookupView($event)'></executive-agedInvoices>
+      </div>
+      <br>
+    </span>
+    <span *ngIf='componentsLoad.row7'>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutAlign="space-between stretch">
+        <executive-budgetReport fxFlex="100" [(data)]="data" (lookupView)='lookupView($event)'></executive-budgetReport>
+      </div>
+      <br>
+    </span>
+    <button *ngIf='showButton' mat-raised-button color="primary" type="button" (click)="loadNextRow()">More...</button>
+  </div>
+
+  <div [hidden]='view === "dashboard"'>
+    <button mat-icon-button style='float: right;' (click)="clearUrlParams()">
+      <mat-icon class="md-24">close</mat-icon>
+    </button>
+    <executive-lookup [(data)]="lookupData" 
+    (lookupDataChange)='lookupDataChange($event)'
+    (rows)='getRows($event)'
+    ></executive-lookup>
+  </div>
+</mat-card> -->

@@ -1,0 +1,13 @@
+.sidenav {
+  .mat-list-item:hover {
+    background: #dddddd;
+  }
+  .mat-list-item.active {
+    // TODO get color from theme
+    color: #c25113;
+    background: #cecece;
+  }
+  .mat-list-item ::ng-deep .mat-list-text {
+    padding-left: 12px !important;
+  }
+}

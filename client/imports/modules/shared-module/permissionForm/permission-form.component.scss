@@ -1,0 +1,17 @@
+.permission-form {
+  small {
+    color: #555555;
+  }
+
+  .label {
+    width: 135px;
+    vertical-align: top;
+  }
+
+  mat-form-field {
+    width: 50%;
+  }
+  mat-form-field ::ng-deep .mat-form-field-wrapper {
+    margin-right: 4px;
+  }
+}

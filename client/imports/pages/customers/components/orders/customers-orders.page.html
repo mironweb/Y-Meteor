@@ -1,0 +1,9 @@
+<mat-card>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <filterBox-component fxFlex='100' (filter)="getFilterConditions($event)" [lookupName]="'customerOrders'"></filterBox-component>
+  </div>
+  <section id="customerOrder">
+    <system-lookup [lookupName]="'customerOrders'" [isModal]="false" (onSelected)="select($event)" [documentId]="documentId"
+                   [(filterConditions)]="filterConditions"></system-lookup>
+  </section>
+</mat-card>

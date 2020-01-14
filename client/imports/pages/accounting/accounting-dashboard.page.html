@@ -1,0 +1,23 @@
+<mat-card>
+  <span [hidden]='view !== "dashboard"'>
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+      <executive-bankingBalance fxFlex="49.75" [(data)]="data"></executive-bankingBalance>
+      <div fxFlex="49.75" fxLayout="column" fxLayoutAlign="space-between stretch">
+        <executive-borrowingBase fxFlex="33" [(data)]="data"></executive-borrowingBase>
+        <executive-inventoryVariance fxFlex="65" [(data)]="data" (lookupView)='lookupView($event)'></executive-inventoryVariance>
+      </div>
+      <!-- <executive-charges fxFlex="100" [(data)]="data"></executive-charges>  -->
+    </div>
+    <br>
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+      <executive-marsInventory #marsInventory fxFlex="100" [(data)]="data" (lookupView)='lookupView($event)'></executive-marsInventory>
+    </div>
+  </span>
+
+  <div [hidden]='view === "dashboard"'>
+    <button mat-icon-button style='float: right;' (click)="clearUrlParams()">
+      <mat-icon class="md-24">close</mat-icon>
+    </button>
+    <executive-lookup [(data)]="lookupData" (lookupDataChange)='lookupDataChange($event)'></executive-lookup>
+  </div>
+</mat-card>

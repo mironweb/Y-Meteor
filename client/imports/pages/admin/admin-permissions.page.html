@@ -1,0 +1,125 @@
+<!-- <mat-card class="box">
+  <div> -->
+    <!--<button mat-raised-button color="primary" (click)="openDialog()">Filter</button>-->
+    <!-- <button mat-raised-button color="primary" (click)="addButton()">Add Permission</button>
+  </div>
+  <div [hidden]="hideTable">
+    <div>
+      <filterBox-component (filter)="getFilterConditions($event)" [lookupName]="'systemPermissions'"></filterBox-component>
+    </div>
+
+    <system-lookup [lookupName]="'systemPermissions'" (onSelected)="returnResult($event)" [(data)]="data" [(filterConditions)]="filterConditions"></system-lookup>
+  </div>
+  <div [hidden]="hideAddForm">
+    <form (ngSubmit)="addPermission(); permissionForm.reset()" #permissionForm="ngForm">
+        <mat-form-field>
+          <input matInput id="permissionNameInput" [(ngModel)]="permission.name" name="name" type="text" placeholder="Name" (keyup)="nameExist()" required #spy #permissionName="ngModel">
+        </mat-form-field>
+        <small [hidden]="permissionName.valid || permissionName.pristine" [ngStyle]="{'color': 'red'}">
+            Name is required
+        </small>
+        <small *ngIf="nameExistError" [ngStyle]="{'color': 'red'}">
+            Name already taken
+        </small>
+        <br>
+        <mat-form-field>
+          <input matInput id="permissionDescriptionInput" [(ngModel)]="permission.description" name="description" type="text" placeholder="Description" required #spy #permissionDescription="ngModel">
+        </mat-form-field>
+        <small [hidden]="permissionDescription.valid || permissionDescription.pristine" [ngStyle]="{'color': 'red'}">
+            Description is required
+        </small>
+        <br>
+        <mat-form-field>
+          <input matInput [class.valid]="valid" id="permissionUrl" [(ngModel)]="permission.url" name="url" type="text" placeholder="URL" (keyup)="urlExist()" (blur)="urlInputBlur()"
+           #spy #permissionURL="ngModel">
+        </mat-form-field>
+        <small *ngIf="URLExistError" [ngStyle]="{'color': 'red'}">
+            URL already taken
+        </small>
+
+      <mat-form-field class="inputContainer cursor-pointer" (click)="manageModule()" >
+        <input matInput class="cursor-pointer" [(ngModel)]="moduleName" name="modules" type="text" placeholder="Modules" #labelLookup="ngModel" readonly>
+      </mat-form-field> -->
+
+
+      <!-- <mat-select placeholder="Select Module" [(ngModel)]="moduleInput" [ngModelOptions]="{standalone: true}">
+          <mat-option *ngFor="let module of modules" (click)="moduleSelection()" [value]="module.viewValue">
+            {{ module.moduleName }}
+          </mat-option>
+        </mat-select> -->
+        <!-- <br>
+        <br>
+        <button mat-raised-button color="warn" type="submit" [disabled]="!permissionForm.form.valid || nameExistError || URLExistError" >Add Permission</button>
+    </form>
+  </div> -->
+  <!-- <mat-tab-group> -->
+    <!-- <mat-tab label="Permissions">
+      <system-lookup [lookupName]="'systemPermissions'" (onSelected)="returnResult($event)" [(data)]="data"></system-lookup>
+    </mat-tab> -->
+    <!-- <mat-tab label="Create Permission">
+
+      <form (ngSubmit)="addPemission(); permissionForm.reset()" #permissionForm="ngForm">
+          <mat-form-field>
+            <input matInput id="permissionNameInput" [(ngModel)]="permissionNameInput" name="name" type="text" placeholder="Name" (keyup)="nameExist()" required #spy #permissionName="ngModel">
+          </mat-form-field>
+          <div [hidden]="permissionName.valid || permissionName.pristine" [ngStyle]="{'color': 'red'}">
+              Name is required
+          </div>
+          <div *ngIf="nameExistError" [ngStyle]="{'color': 'red'}">
+              Name already taken
+          </div>
+          <br>
+          <mat-form-field>
+            <input matInput id="permissionDescriptionInput" [(ngModel)]="permissionDescriptionInput" name="description" type="text" placeholder="Description" required #spy #permissionDescription="ngModel">
+          </mat-form-field>
+          <div [hidden]="permissionDescription.valid || permissionDescription.pristine" [ngStyle]="{'color': 'red'}">
+              Description is required
+          </div>
+          <br>
+          <mat-form-field>
+            <input matInput [class.valid]="valid" id="permissionUrlInput" [(ngModel)]="permissionUrlInput" name="url" type="text" placeholder="URL" (keyup)="urlExist()" (blur)="urlInputBlur()"
+             #spy #permissionURL="ngModel">
+          </mat-form-field> -->
+          <!-- <div [hidden]="permissionURL.valid || permissionURL.pristine" [ngStyle]="{'color': 'red'}">
+              URL is required
+          </div> -->
+          <!-- <div *ngIf="URLExistError" [ngStyle]="{'color': 'red'}">
+              URL already taken
+          </div> -->
+<!--
+          <mat-select placeholder="Select Module" [(ngModel)]="moduleInput" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let module of modules" (click)="moduleSelection()" [value]="module.viewValue">
+              {{ module.moduleName }}
+            </mat-option>
+          </mat-select>
+          <br>
+          <br>
+          <button mat-raised-button color="warn" type="submit" [disabled]="!permissionForm.form.valid || nameExistError || URLExistError || moduleError" >Add Permission</button>
+      </form>
+    </mat-tab> -->
+  <!-- </mat-tab-group> -->
+<!-- </mat-card> -->
+
+<mat-card class="box">
+  <div class="actions">
+    <button class="add-permission-button"
+      mat-raised-button color="primary" (click)="showPermissionForm(null)">
+      Add Permission
+    </button>
+    <button class="reload-permission-button"
+      mat-button (click)="reloadTreeAndForm()">
+      Reload
+    </button>
+  </div>
+  <div class="permissions-wrapper">
+    <treenav (select)="showPermissionForm($event)" #permissionTree></treenav>
+    <div class="side-panel">
+      <div class="sticky">
+        <permission-form [permissionId]="selectedPermission._id"
+          (action)="onAction($event); permissionTree.updateTree($event)"
+          *ngIf="selectedPermission">
+        </permission-form>
+      </div>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,105 @@
+/* Structure */
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+}
+
+.example-header {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  font-size: 20px;
+}
+
+.example-header {
+  min-height: 64px;
+  display: flex;
+  align-items: baseline;
+  padding: 8px 24px 0;
+  font-size: 20px;
+  justify-content: space-between;
+}
+
+table, tr, td {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+  font-size: 14px;
+  flex-grow: 1;
+  margin-right: 32px;
+}
+
+.mat-table {
+  overflow: auto;
+}
+
+.textarea {
+  width: 100%
+}
+//DataTable
+// .highlight{
+//   border: 3px #42A948 solid;
+// }
+
+.quotesMeetings {
+  width: 100%;
+  max-height: 300px;
+  overflow-y: scroll
+}
+
+.disable-whole-div__cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-color: #ddd;
+  opacity: 0.0;
+}
+
+::ng-deep div.example-container {
+  margin-top: 0px;
+}
+
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+.mat-elevation-z8{
+  box-shadow: none !important;
+}
+
+.example-container {
+  box-shadow: none !important;
+}
+
+::ng-deep .mat-step-icon-not-touched {
+  background-color: #e3e3e3 !important;
+}
+::ng-deep .stepperLookup {
+  .mat-table {
+    .mat-table-sticky {
+      top: 0px !important;
+    }
+    height: 60vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}
+
+.step-header-color {
+  color: #e3e3e3;
+}
+// :host ::ng-deep .mat-tab-header {
+//   position: fixed !important;
+// }

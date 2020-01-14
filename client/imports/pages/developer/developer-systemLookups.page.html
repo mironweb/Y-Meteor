@@ -1,0 +1,75 @@
+<mat-card class="box">
+  <div>
+    <!--<button mat-raised-button color="primary" (click)="openDialog()">Filter</button>-->
+    <button mat-raised-button color="primary" (click)="addButton()">Add</button>
+  </div>
+  <div>
+    <filterBox-component (filter)="getFilterConditions($event)" [lookupName]="'systemLookups'"></filterBox-component>
+  </div>
+
+  <div [hidden]="hideTable">
+    <system-lookup [lookupName]="'systemLookups'" (onSelected)="returnResult($event)" [(data)]="data"
+                   [(filterConditions)]="filterConditions"></system-lookup>
+  </div>
+  <div [hidden]="hideAddForm">
+    <form (ngSubmit)="addLookup(); lookupForm.reset()" #lookupForm="ngForm">
+      <mat-form-field>
+        <input matInput id="nameInput" [(ngModel)]="nameInput" name="name" type="text" placeholder="Name" required #spy
+               #nameLookup="ngModel">
+      </mat-form-field>
+      <small [hidden]="nameLookup.valid || nameLookup.pristine" [ngStyle]="{'color': 'red'}">
+        Name is required
+      </small>
+      <br>
+      <mat-form-field>
+        <input matInput id="labelInput" [(ngModel)]="labelInput" name="label" type="text" placeholder="Label" required
+               #spy #labelLookup="ngModel">
+      </mat-form-field>
+      <small [hidden]="labelLookup.valid || labelLookup.pristine" [ngStyle]="{'color': 'red'}">
+        Label is required
+      </small>
+      <br>
+      <mat-checkbox class="searchableCheck" [(ngModel)]="searchable" [ngModelOptions]="{standalone: true}">Searchable
+      </mat-checkbox>
+      <mat-form-field>
+      <textarea matInput resizeToFitContent id="subscriptionsInput" [(ngModel)]="subscriptionsInput"
+                (keyup)="validJsonSubs()" name="subscriptions" type="text" placeholder="Subscriptions" required #spy
+                #subscriptionsLookup="ngModel" >
+      </textarea>
+      </mat-form-field>
+      <small [hidden]="subscriptionsLookup.valid || subscriptionsLookup.pristine" [ngStyle]="{'color': 'red'}">
+        Subscriptions is required
+      </small>
+      <small *ngIf="!validJsonErrorSubs" [ngStyle]="{'color': 'red'}">
+        Not valid JSON
+      </small>
+      <mat-form-field>
+      <textarea matInput resizeToFitContent id="methodsInput" [(ngModel)]="methodsInput" name="methods"
+                (keyup)="validJsonMethods()" type="text" placeholder="Methods" required #spy #methodsLookup="ngModel">
+      </textarea>
+      </mat-form-field>
+      <small [hidden]="methodsLookup.valid || methodsLookup.pristine" [ngStyle]="{'color': 'red'}">
+        Methods is required
+      </small>
+      <small *ngIf="!validJsonErrorMethods" [ngStyle]="{'color': 'red'}">
+        Not valid JSON
+      </small>
+      <mat-form-field>
+      <textarea matInput resizeToFitContent id="dataTableInput" [(ngModel)]="dataTableInput" name="dataTable"
+                (keyup)="validJsonDataTable()" type="text" placeholder="Data Table" required #spy
+                #dataTableLookup="ngModel" >
+      </textarea>
+      </mat-form-field>
+      <small [hidden]="dataTableLookup.valid || dataTableLookup.pristine" [ngStyle]="{'color': 'red'}">
+        Data Table is required
+      </small>
+      <small *ngIf="!validJsonErrorDataTable" [ngStyle]="{'color': 'red'}">
+        Not valid JSON
+      </small>
+      <button mat-raised-button
+              [disabled]="!lookupForm.form.valid || !validJsonErrorSubs || !validJsonErrorMethods || !validJsonErrorDataTable"
+              color="warn" type="submit">Add Lookup
+      </button>
+    </form>
+  </div>
+</mat-card>

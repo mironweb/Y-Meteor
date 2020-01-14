@@ -1,0 +1,85 @@
+<mat-card>
+    <mat-tab-group class="single-tab-emphasis">
+        <mat-tab label="Profile">
+            <form class="profile-form"  name="changePasswordForm" [formGroup]="changePasswordForm" novalidate>
+                <p>
+                    <legend>Change Password</legend>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input matInput type="password" placeholder="Old Password"  formControlName="oldPassword" required>
+                        <mat-error *ngIf="changePasswordFormErrors.oldPassword.required">
+                            Password is required
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input matInput type="password" placeholder="New Password" formControlName="newPassword" required>
+                        <mat-error *ngIf="changePasswordFormErrors.newPassword.required">
+                            Password is required
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field>
+                        <input matInput type="password" placeholder="Confirm New Password" formControlName="confirmPassword" required>
+                        <mat-error *ngIf="changePasswordFormErrors.confirmPassword.required">
+                            Confirm Password is required
+                        </mat-error>
+                        <mat-error *ngIf="changePasswordFormErrors.confirmPassword.passwordsNotMatch">
+                            New Password & Confirm New Password must match
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <button mat-button mat-raised-button color="primary"  (click)="updatePassword()"
+                            aria-label="RESET MY PASSWORD" [disabled]="changePasswordForm.invalid">
+                        Update
+                    </button>
+                </p>
+            </form>
+        </mat-tab>
+        <mat-tab label="Site">
+            <form class="site-form">
+                <div>
+                    <label>Homepage</label>
+                    <mat-form-field>
+                        <mat-select placeholder="Select" name="homepage"
+                            [(ngModel)]="profile.homepage" (ngModelChange)="onSelectHomepage()">
+                            <mat-optgroup *ngFor="let menu of menus" [label]="menu.sidenavLabel">
+                                <mat-option *ngFor="let route of menu.routes" [value]="route.url">
+                                    {{route.sidenavLabel}}
+                                </mat-option>
+                            </mat-optgroup>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <label>Theme</label>
+                    <mat-form-field>
+                        <mat-select placeholder="Select" name="appTheme"
+                            [(ngModel)]="profile.appTheme" (ngModelChange)="onSelectAppTheme()">
+                            <mat-option *ngFor="let theme of themes" [value]="theme.value">
+                                {{theme.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <label>Meeting Email</label>
+                    <mat-form-field>
+                        <mat-select placeholder="Select" name="meetingEmails"
+                            [(ngModel)]="profile.meetingEmails" (ngModelChange)="onSelectMeetingEmails()">
+                            <mat-option *ngFor="let emailType of emailTypes" [value]="emailType.value">
+                                {{emailType.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </form>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>
+<simple-notifications [options]="options"></simple-notifications>

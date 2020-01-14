@@ -1,0 +1,50 @@
+<mat-card fxLayout="row">
+  <div fxFlex="">
+    <div fxLayout="row wrap">
+      <div fxFlex fxFlexOffset>
+        <mat-form-field style="width: 200px">
+          <input matInput placeholder="Filter Name" [(ngModel)]="filterDetail.name" (change)="updateFiltername($event)">
+        </mat-form-field>
+      </div>
+      <div  fxFlex="none" class="cursor-pointer" (click)="hideFilterDetail()">
+        <div>
+          <mat-icon>clear</mat-icon>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let condition of filterDetail.conditions; let conditionIndex = index">
+      <filter-condition [conditionIndex]="conditionIndex" [columns]="columns"
+                        [filter]="filterDetail"
+                        [config]="multipleConditionsConfig"
+                        (syncCondition)="syncCondition($event, conditionIndex)"
+                        (removeCondition)="removeCondition(condition, conditionIndex)"></filter-condition>
+    </div>
+
+    <br>
+    <div fxLayout="row">
+      <div fxFlex="none" fxLayout="row" class="cursor-pointer" (click)="addCondition()">
+        <div fxFlex="none" fxLayoutAlign="space-around center">
+          <mat-icon>add</mat-icon>
+        </div>
+        <div fxFlex="none">
+          <h3>Add Another Condition</h3>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="none" class="mr-10">
+        <button (click)="saveFilter()" mat-raised-button color="primary">SAVE</button>
+      </div>
+      <div fxFlex="none" class="mr-10">
+        <button mat-raised-button (click)="applyFilter()" color="accent">APPLY</button>
+      </div>
+      <!--<div fxFlex="none" class="mr-10">-->
+        <!--<button mat-raised-button (click)="reloadFilter()" color="accent">RELOAD</button>-->
+      <!--</div>-->
+      <div fxFlex="none">
+        <button mat-raised-button (click)="deleteFilter()" color="warn">DELETE</button>
+      </div>
+    </div>
+  </div>
+
+</mat-card>

@@ -1,0 +1,76 @@
+/* Structure */
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+}
+
+.example-header {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  font-size: 20px;
+}
+
+.example-header {
+  min-height: 64px;
+  display: flex;
+  align-items: baseline;
+  padding: 8px 24px 0;
+  font-size: 20px;
+  justify-content: space-between;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  flex-grow: 1;
+  margin-left: 32px;
+}
+
+.mat-table {
+  overflow: auto;
+}
+
+/* Calendar */
+
+.titleBar {
+  text-align: center;
+  color: white;
+  // font-family: 'roboto';
+  font-size: 45px;
+  display: table-cell;
+  vertical-align: middle;
+  height: 88px;
+}
+.headerParent {
+  width: 100%;
+  display: table;
+}
+.viewAll {
+  background-color: #f7931e;
+  border-radius: 30px;
+  margin: 2px 2px 2px 0px;
+  color: white;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  float: left;
+}
+
+.individual{
+  color: black;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 25px;
+  border-radius: 10px;
+}
+
+.filterContainer {
+  position: absolute;
+  float: right;
+  right: 25px;
+}
