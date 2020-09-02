@@ -37,7 +37,7 @@
     "excel4node": "^1.6.0",
     "exceljs": "^1.6.2",
     "file-saver": "^2.0.0-rc.3",
-    "googleapis": "^27.0.0",
+    "googleapis": "^39.1.0",
     "hammerjs": "2.0.8",
     "jsbarcode": "^3.9.0",
     "meteor-node-stubs": "^0.4.1",
