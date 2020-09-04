@@ -44,7 +44,7 @@
     "meteor-rxjs": "0.4.14",
     "moment": "2.22.2",
     "moment-timezone": "0.5.20",
-    "mongodb": "^3.1.9",
+    "mongodb": "^3.1.13",
     "ng2-charts": "1.6.0",
     "ng2-date-picker": "2.9.0",
     "ngx-daterangepicker-material": "^2.0.2",
